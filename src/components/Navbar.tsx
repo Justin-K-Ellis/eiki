@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Navbar() {
   const t = useTranslations("Navbar");
@@ -16,7 +17,9 @@ export default function Navbar() {
         <li>
           <Link href={"/about"}>{t("about")}</Link>
         </li>
-        <li>EN</li>
+        <li>
+          <LanguageSwitcher />
+        </li>
       </ul>
     </nav>
   );
