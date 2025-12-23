@@ -1,0 +1,10 @@
+{
+  "Home": {
+    "title": "Welcome to the home page."
+  },
+  "Navbar": {
+    "title": "Eiki",
+    "login": "Login",
+    "about": "About"
+  }
+}
