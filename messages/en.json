@@ -2,6 +2,10 @@
   "Home": {
     "title": "Welcome to the home page."
   },
+  "About": {
+    "title": "About Eiki",
+    "content": "blah blah blah"
+  },
   "Navbar": {
     "title": "Eiki",
     "login": "Login",

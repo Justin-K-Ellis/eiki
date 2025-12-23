@@ -2,6 +2,10 @@
   "Home": {
     "title": "ホームページへようこそ"
   },
+  "About": {
+    "title": "英記について",
+    "content": "あああああ"
+  },
   "Navbar": {
     "title": "英記",
     "login": "ログイン",
