@@ -4,6 +4,15 @@ import "./globals.css";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import {
+  ClerkProvider,
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
+
 import Navbar from "@/components/Navbar";
 
 const geistSans = Geist({
@@ -37,8 +46,13 @@ export default async function RootLayout({ children, params }: Props) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NextIntlClientProvider>
-          <Navbar />
-          {children}
+          <ClerkProvider>
+            <SignedIn>
+              <Navbar />
+              <UserButton />
+              {children}
+            </SignedIn>
+          </ClerkProvider>
         </NextIntlClientProvider>
       </body>
     </html>

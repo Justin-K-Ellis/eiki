@@ -13,8 +13,8 @@ export default function LanguageSwitcher() {
       value={locale}
       onChange={(e) => router.push(pathname, { locale: e.target.value })}
     >
-      <option value="en">English</option>
-      <option value="ja">日本語</option>
+      <option value="en">🇺🇸</option>
+      <option value="ja">🇯🇵</option>
     </select>
   );
 }
