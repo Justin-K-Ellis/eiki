@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { UserButton } from "@clerk/nextjs";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Navbar() {
@@ -12,7 +13,7 @@ export default function Navbar() {
       </h1>
       <ul className="flex gap-1 md:gap-2">
         <li>
-          <Link href={"#"}>{t("login")}</Link>
+          <UserButton />
         </li>
         <li>
           <Link href={"/about"}>{t("about")}</Link>

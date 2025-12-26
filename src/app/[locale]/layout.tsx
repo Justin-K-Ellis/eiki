@@ -10,10 +10,10 @@ import {
   SignUpButton,
   SignedIn,
   SignedOut,
-  UserButton,
 } from "@clerk/nextjs";
 
 import Navbar from "@/components/Navbar";
+import SigninSignup from "@/components/SigninSignup";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,20 +41,24 @@ export default async function RootLayout({ children, params }: Props) {
     notFound();
   }
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <NextIntlClientProvider>
-          <ClerkProvider>
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <NextIntlClientProvider>
+            <SignedOut>
+              <main className="w-11/12 md:w-6/10 mx-auto">
+                <SigninSignup />
+              </main>
+            </SignedOut>
             <SignedIn>
               <Navbar />
-              <UserButton />
-              {children}
+              <main className="w-11/12 md:w-6/10 mx-auto">{children}</main>
             </SignedIn>
-          </ClerkProvider>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+          </NextIntlClientProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

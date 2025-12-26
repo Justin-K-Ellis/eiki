@@ -4,10 +4,12 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
 const intlMiddleware = createMiddleware(routing);
 
-const isProtecedRoute = createRouteMatcher([]);
+const isProtectedRoute = createRouteMatcher([]);
 
 export default clerkMiddleware(async (auth, req) => {
-  if ((isProtecedRoute(req), await auth.protect())) return intlMiddleware(req);
+  if (isProtectedRoute(req)) await auth.protect();
+
+  return intlMiddleware(req);
 });
 
 export const config = {

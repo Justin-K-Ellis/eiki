@@ -1,4 +1,11 @@
 {
+  "LandingPage": {
+    "title": "Eiki",
+    "subtitle": "Read and Remember",
+    "blurb": "Sign in or sign up to get started learning English.",
+    "sign-in": "Sign in",
+    "sign-up": "Sign up"
+  },
   "Home": {
     "title": "Welcome to the home page."
   },
