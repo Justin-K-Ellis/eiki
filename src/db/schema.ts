@@ -1,11 +1,11 @@
 import {
-  pgTable,
-  integer,
-  timestamp,
-  text,
-  real,
-  varchar,
   boolean,
+  integer,
+  pgTable,
+  real,
+  text,
+  timestamp,
+  varchar,
 } from "drizzle-orm/pg-core";
 
 // === Basic tables ===
@@ -21,21 +21,21 @@ export const passagesTable = pgTable("passages", {
   created_at: timestamp(),
   ja_translation: text().notNull().unique(),
   explanation: text().notNull(),
-  //   answer_key_id
-  //   CERF_level_id
-  //   unit_id
+  cerf_level_id: integer().references(() => cefrTable.id),
+  unit_id: integer().references(() => unitsTable.id),
 });
 
 export const optionsTable = pgTable("options", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   text: text().notNull().unique(),
-  //   passage_id
+  is_answer_key: boolean().notNull(),
+  passage_id: integer().references(() => passagesTable.id),
 });
 
 export const unitsTable = pgTable("units", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   name: varchar({ length: 256 }),
-  // CEFR_level_id
+  cefr_level_id: integer().references(() => cefrTable.id),
 });
 
 export const cefrTable = pgTable("cefr_levels", {
@@ -46,22 +46,23 @@ export const cefrTable = pgTable("cefr_levels", {
 export const vocabTable = pgTable("vocab", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   text: varchar({ length: 256 }),
-  // cefr
   added_at: timestamp(),
 });
 
 // === Join tables ===
 export const userPassageAttemptsTable = pgTable("user_passage_attempts", {
-  // user_id:
-  // passage_id:
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  user_id: integer().references(() => usersTable.id),
+  passage_id: integer().references(() => passagesTable.id),
   correctly_answered: boolean().default(false),
   last_attempted_at: timestamp(),
   total_attempts: integer().default(0),
 });
 
 export const userVocabTable = pgTable("user_vocab", {
-  // user_id
-  // vocab_id
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  user_id: integer().references(() => usersTable.id),
+  vocab_id: integer().references(() => vocabTable.id),
   review_score: varchar({ length: 256 }),
   last_reviewed_at: timestamp(),
 });
