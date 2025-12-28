@@ -7,46 +7,55 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
+import { InferSelectModel } from "drizzle-orm";
 
 // === Basic tables ===
 export const usersTable = pgTable("users", {
   id: integer().primaryKey().notNull(),
-  created_at: timestamp(),
+  created_at: timestamp().defaultNow().notNull(),
 });
 
 export const passagesTable = pgTable("passages", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   body: text().notNull().unique(),
   readability_score: real().notNull(),
-  created_at: timestamp(),
+  created_at: timestamp().defaultNow().notNull(),
   ja_translation: text().notNull().unique(),
   explanation: text().notNull(),
-  cerf_level_id: integer().references(() => cefrTable.id),
-  unit_id: integer().references(() => unitsTable.id),
+  cerf_level_id: integer()
+    .references(() => cefrTable.id)
+    .notNull(),
+  unit_id: integer()
+    .references(() => unitsTable.id)
+    .notNull(),
 });
 
 export const optionsTable = pgTable("options", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   text: text().notNull().unique(),
   is_answer_key: boolean().notNull(),
-  passage_id: integer().references(() => passagesTable.id),
+  passage_id: integer()
+    .references(() => passagesTable.id)
+    .notNull(),
 });
 
 export const unitsTable = pgTable("units", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  name: varchar({ length: 256 }),
-  cefr_level_id: integer().references(() => cefrTable.id),
+  name: varchar({ length: 256 }).notNull(),
+  cefr_level_id: integer()
+    .references(() => cefrTable.id)
+    .notNull(),
 });
 
 export const cefrTable = pgTable("cefr_levels", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  name: varchar({ length: 256 }),
+  name: varchar({ length: 256 }).notNull(),
 });
 
 export const vocabTable = pgTable("vocab", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  text: varchar({ length: 256 }),
-  added_at: timestamp(),
+  text: varchar({ length: 256 }).notNull(),
+  added_at: timestamp().defaultNow().notNull(),
 });
 
 // === Join tables ===
@@ -66,3 +75,11 @@ export const userVocabTable = pgTable("user_vocab", {
   review_score: varchar({ length: 256 }),
   last_reviewed_at: timestamp(),
 });
+
+// Types
+export type User = InferSelectModel<typeof usersTable>;
+export type Passage = InferSelectModel<typeof passagesTable>;
+export type Option = InferSelectModel<typeof optionsTable>;
+export type Vocab = InferSelectModel<typeof vocabTable>;
+export type Unit = InferSelectModel<typeof unitsTable>;
+export type CEFRLevel = InferSelectModel<typeof cefrTable>;
