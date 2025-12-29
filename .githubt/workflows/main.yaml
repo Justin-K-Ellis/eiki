@@ -1,0 +1,19 @@
+name: main
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: node:24.5.0
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          node-version: node:24.5.0
+      - run: npm ci
+      - run: npm run test
+      - run: npm run build
