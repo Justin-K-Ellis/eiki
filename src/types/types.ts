@@ -1,4 +1,4 @@
-import type { CEFRLevel } from "./src/db/schema";
+import type { CEFRLevel } from "../db/schema";
 
 export interface ItemContent {
   body: string;

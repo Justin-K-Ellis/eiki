@@ -2,9 +2,8 @@ import fs from "fs/promises";
 import "dotenv/config";
 import { drizzle } from "drizzle-orm/neon-http";
 import { passagesTable, optionsTable } from "../schema";
-// @ts-nocheck
 import rs from "text-readability";
-import type { ItemContent } from "../../../types";
+import type { ItemContent } from "../../types/types";
 
 const db = drizzle(process.env.DATABASE_URL!);
 
