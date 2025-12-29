@@ -32,7 +32,7 @@ export const passagesTable = pgTable("passages", {
   readability_score: real().notNull(),
   created_at: timestamp().defaultNow().notNull(),
   ja_translation: text().notNull().unique(),
-  cerf_level_id: cefrEnum().notNull(),
+  cerf_level: cefrEnum().notNull(),
   unit_id: integer()
     .references(() => unitsTable.id)
     .notNull(),
@@ -49,8 +49,9 @@ export const optionsTable = pgTable("options", {
 
 export const unitsTable = pgTable("units", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  name: varchar({ length: 256 }).notNull(),
-  cefr_level_id: cefrEnum().notNull(),
+  en_name: varchar({ length: 256 }).notNull().unique(),
+  ja_name: varchar({ length: 256 }).notNull().unique(),
+  cefr_level: cefrEnum().notNull(),
 });
 
 export const vocabTable = pgTable("vocab", {
@@ -84,3 +85,5 @@ export type Option = InferSelectModel<typeof optionsTable>;
 export type Vocab = InferSelectModel<typeof vocabTable>;
 export type Unit = InferSelectModel<typeof unitsTable>;
 export type CEFRLevel = (typeof cefrEnum.enumValues)[number];
+
+export type UnitDTO = Omit<Unit, "id">;

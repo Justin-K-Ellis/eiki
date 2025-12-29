@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest",
-    "db:migrate": "npx drizzle-kit generate && npx drizzle-kit migrate"
+    "db:migrate": "npx drizzle-kit generate && npx drizzle-kit migrate",
+    "db:seed": "npx tsx ./src/db/seed.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.36.5",
