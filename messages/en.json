@@ -17,5 +17,8 @@
     "title": "Eiki",
     "login": "Login",
     "about": "About"
+  },
+  "Footer": {
+    "name": "Justin Klitgaard"
   }
 }
