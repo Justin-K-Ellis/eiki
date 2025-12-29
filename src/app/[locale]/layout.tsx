@@ -39,7 +39,7 @@ export default async function RootLayout({ children, params }: Props) {
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col h-screen justify-between`}
         >
           <NextIntlClientProvider>
             <SignedOut>
