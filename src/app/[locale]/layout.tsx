@@ -49,7 +49,9 @@ export default async function RootLayout({ children, params }: Props) {
             </SignedOut>
             <SignedIn>
               <Navbar />
-              <main className="w-11/12 md:w-6/10 mx-auto">{children}</main>
+              <main className="w-11/12 md:w-6/10 h-full mx-auto">
+                {children}
+              </main>
             </SignedIn>
           </NextIntlClientProvider>
           <Footer />
