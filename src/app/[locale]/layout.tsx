@@ -8,6 +8,7 @@ import { ClerkProvider, SignedIn, SignedOut } from "@clerk/nextjs";
 
 import Navbar from "@/components/Navbar";
 import SigninSignup from "@/components/SigninSignup";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,6 +52,7 @@ export default async function RootLayout({ children, params }: Props) {
               <main className="w-11/12 md:w-6/10 mx-auto">{children}</main>
             </SignedIn>
           </NextIntlClientProvider>
+          <Footer />
         </body>
       </html>
     </ClerkProvider>
