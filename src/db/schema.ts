@@ -1,6 +1,7 @@
 import {
   boolean,
   integer,
+  pgEnum,
   pgTable,
   real,
   text,
@@ -8,6 +9,16 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 import { InferSelectModel } from "drizzle-orm";
+
+// === Enums ===
+export const cefrEnum = pgEnum("cefr_level", [
+  "A1",
+  "A2",
+  "B1",
+  "B2",
+  "C1",
+  "C2",
+]);
 
 // === Basic tables ===
 export const usersTable = pgTable("users", {
@@ -21,10 +32,7 @@ export const passagesTable = pgTable("passages", {
   readability_score: real().notNull(),
   created_at: timestamp().defaultNow().notNull(),
   ja_translation: text().notNull().unique(),
-  explanation: text().notNull(),
-  cerf_level_id: integer()
-    .references(() => cefrTable.id)
-    .notNull(),
+  cerf_level_id: cefrEnum().notNull(),
   unit_id: integer()
     .references(() => unitsTable.id)
     .notNull(),
@@ -42,14 +50,7 @@ export const optionsTable = pgTable("options", {
 export const unitsTable = pgTable("units", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   name: varchar({ length: 256 }).notNull(),
-  cefr_level_id: integer()
-    .references(() => cefrTable.id)
-    .notNull(),
-});
-
-export const cefrTable = pgTable("cefr_levels", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  name: varchar({ length: 256 }).notNull(),
+  cefr_level_id: cefrEnum().notNull(),
 });
 
 export const vocabTable = pgTable("vocab", {
@@ -82,4 +83,4 @@ export type Passage = InferSelectModel<typeof passagesTable>;
 export type Option = InferSelectModel<typeof optionsTable>;
 export type Vocab = InferSelectModel<typeof vocabTable>;
 export type Unit = InferSelectModel<typeof unitsTable>;
-export type CEFRLevel = InferSelectModel<typeof cefrTable>;
+export type CEFRLevel = (typeof cefrEnum.enumValues)[number];
