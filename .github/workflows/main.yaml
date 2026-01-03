@@ -15,5 +15,6 @@ jobs:
         with:
           node-version: node:24.5.0
       - run: npm ci
+      - run: npm run lint
       - run: npm run test
       - run: npm run build
