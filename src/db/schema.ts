@@ -33,8 +33,8 @@ export const passagesTable = pgTable("passages", {
   created_at: timestamp().defaultNow().notNull(),
   ja_translation: text().notNull().unique(),
   cerf_level: cefrEnum().notNull(),
-  unit_id: integer()
-    .references(() => unitsTable.id)
+  unit: integer()
+    .references(() => unitsTable.unit_identifier)
     .notNull(),
 });
 
@@ -50,6 +50,7 @@ export const optionsTable = pgTable("options", {
 export const unitsTable = pgTable("units", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   en_name: varchar({ length: 256 }).notNull().unique(),
+  unit_identifier: integer().unique().notNull(),
   ja_name: varchar({ length: 256 }).notNull().unique(),
   cefr_level: cefrEnum().notNull(),
 });
