@@ -1,5 +1,5 @@
 {
-  "id": "92d19105-471a-4ba5-9216-7d4ba0b6a7cf",
+  "id": "0a8449fb-93b7-40fd-ac63-5e1d0d471cd3",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -120,15 +120,15 @@
           "primaryKey": false,
           "notNull": true
         },
-        "cerf_level_id": {
-          "name": "cerf_level_id",
+        "cerf_level": {
+          "name": "cerf_level",
           "type": "cefr_level",
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         },
-        "unit_id": {
-          "name": "unit_id",
+        "unit": {
+          "name": "unit",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
@@ -136,15 +136,15 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "passages_unit_id_units_id_fk": {
-          "name": "passages_unit_id_units_id_fk",
+        "passages_unit_units_unit_identifier_fk": {
+          "name": "passages_unit_units_unit_identifier_fk",
           "tableFrom": "passages",
           "tableTo": "units",
           "columnsFrom": [
-            "unit_id"
+            "unit"
           ],
           "columnsTo": [
-            "id"
+            "unit_identifier"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
@@ -192,14 +192,26 @@
             "cycle": false
           }
         },
-        "name": {
-          "name": "name",
+        "en_name": {
+          "name": "en_name",
           "type": "varchar(256)",
           "primaryKey": false,
           "notNull": true
         },
-        "cefr_level_id": {
-          "name": "cefr_level_id",
+        "unit_identifier": {
+          "name": "unit_identifier",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ja_name": {
+          "name": "ja_name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cefr_level": {
+          "name": "cefr_level",
           "type": "cefr_level",
           "typeSchema": "public",
           "primaryKey": false,
@@ -209,7 +221,29 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
+      "uniqueConstraints": {
+        "units_en_name_unique": {
+          "name": "units_en_name_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "en_name"
+          ]
+        },
+        "units_unit_identifier_unique": {
+          "name": "units_unit_identifier_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "unit_identifier"
+          ]
+        },
+        "units_ja_name_unique": {
+          "name": "units_ja_name_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "ja_name"
+          ]
+        }
+      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
