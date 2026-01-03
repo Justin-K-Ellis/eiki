@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest",
-    "db:migrate": "npx drizzle-kit generate && npx drizzle-kit migrate"
+    "db:migrate": "npx drizzle-kit generate && npx drizzle-kit migrate",
+    "db:seed:units": "npx tsx ./src/db/seeding/seedUnits.ts",
+    "db:seed:items": "npx tsx ./src/db/seeding/seedPassagesAndOptions.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.36.5",
@@ -23,7 +25,8 @@
     "next-intl": "^4.6.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "tailwind-merge": "^3.4.0"
+    "tailwind-merge": "^3.4.0",
+    "text-readability": "^1.1.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

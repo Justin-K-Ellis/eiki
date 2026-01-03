@@ -13,16 +13,21 @@ CREATE TABLE "passages" (
 	"readability_score" real NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"ja_translation" text NOT NULL,
-	"cerf_level_id" "cefr_level" NOT NULL,
-	"unit_id" integer NOT NULL,
+	"cerf_level" "cefr_level" NOT NULL,
+	"unit" integer NOT NULL,
 	CONSTRAINT "passages_body_unique" UNIQUE("body"),
 	CONSTRAINT "passages_ja_translation_unique" UNIQUE("ja_translation")
 );
 --> statement-breakpoint
 CREATE TABLE "units" (
 	"id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY (sequence name "units_id_seq" INCREMENT BY 1 MINVALUE 1 MAXVALUE 2147483647 START WITH 1 CACHE 1),
-	"name" varchar(256) NOT NULL,
-	"cefr_level_id" "cefr_level" NOT NULL
+	"en_name" varchar(256) NOT NULL,
+	"unit_identifier" integer NOT NULL,
+	"ja_name" varchar(256) NOT NULL,
+	"cefr_level" "cefr_level" NOT NULL,
+	CONSTRAINT "units_en_name_unique" UNIQUE("en_name"),
+	CONSTRAINT "units_unit_identifier_unique" UNIQUE("unit_identifier"),
+	CONSTRAINT "units_ja_name_unique" UNIQUE("ja_name")
 );
 --> statement-breakpoint
 CREATE TABLE "user_passage_attempts" (
@@ -54,7 +59,7 @@ CREATE TABLE "vocab" (
 );
 --> statement-breakpoint
 ALTER TABLE "options" ADD CONSTRAINT "options_passage_id_passages_id_fk" FOREIGN KEY ("passage_id") REFERENCES "public"."passages"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "passages" ADD CONSTRAINT "passages_unit_id_units_id_fk" FOREIGN KEY ("unit_id") REFERENCES "public"."units"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "passages" ADD CONSTRAINT "passages_unit_units_unit_identifier_fk" FOREIGN KEY ("unit") REFERENCES "public"."units"("unit_identifier") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "user_passage_attempts" ADD CONSTRAINT "user_passage_attempts_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "user_passage_attempts" ADD CONSTRAINT "user_passage_attempts_passage_id_passages_id_fk" FOREIGN KEY ("passage_id") REFERENCES "public"."passages"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "user_vocab" ADD CONSTRAINT "user_vocab_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
