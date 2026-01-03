@@ -18,13 +18,13 @@ export default async function seedPassageAndOptions(): Promise<void> {
     for (const item of items) {
       // Seed passage
       const readability = rs.fleschKincaidGrade(item.body);
-      const passageId = await db
+      const [{ passageId }] = await db
         .insert(passagesTable)
         .values({
           body: item.body,
           ja_translation: item.ja_translation,
           cerf_level: item.cefr_level,
-          unit_id: item.unit_id,
+          unit: item.unit,
           readability_score: readability,
         })
         .returning({ passageId: passagesTable.id });
@@ -33,7 +33,7 @@ export default async function seedPassageAndOptions(): Promise<void> {
       await db.insert(optionsTable).values({
         text: item.key,
         is_answer_key: true,
-        passage_id: passageId[0].passageId,
+        passage_id: passageId,
       });
 
       // Seed distractors
@@ -41,7 +41,7 @@ export default async function seedPassageAndOptions(): Promise<void> {
         await db.insert(optionsTable).values({
           text: dist,
           is_answer_key: false,
-          passage_id: passageId[0].passageId,
+          passage_id: passageId,
         });
       }
     }
