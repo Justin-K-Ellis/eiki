@@ -43,7 +43,7 @@ export default async function RootLayout({ children, params }: Props) {
         >
           <NextIntlClientProvider>
             <SignedOut>
-              <main className="w-11/12 md:w-6/10 mx-auto">
+              <main className="w-11/12 md:w-6/10 h-full mx-auto">
                 <SigninSignup />
               </main>
             </SignedOut>
