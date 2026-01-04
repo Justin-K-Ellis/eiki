@@ -28,6 +28,7 @@ export const usersTable = pgTable("users", {
 
 export const passagesTable = pgTable("passages", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  title: varchar({ length: 256 }).notNull(),
   body: text().notNull().unique(),
   readability_score: real().notNull(),
   created_at: timestamp().defaultNow().notNull(),
