@@ -21,6 +21,7 @@ export default async function seedPassageAndOptions(): Promise<void> {
       const [{ passageId }] = await db
         .insert(passagesTable)
         .values({
+          title: item.title,
           body: item.body,
           ja_translation: item.ja_translation,
           cerf_level: item.cefr_level,

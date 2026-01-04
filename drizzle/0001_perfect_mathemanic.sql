@@ -1,0 +1,1 @@
+ALTER TABLE "passages" ADD COLUMN "title" varchar(256);

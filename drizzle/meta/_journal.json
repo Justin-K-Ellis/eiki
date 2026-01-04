@@ -8,6 +8,20 @@
       "when": 1767364837714,
       "tag": "0000_unknown_gambit",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1767529662615,
+      "tag": "0001_perfect_mathemanic",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1767530203724,
+      "tag": "0002_common_young_avengers",
+      "breakpoints": true
     }
   ]
 }
