@@ -4,8 +4,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useLocale } from "next-intl";
 import cefrDictionary from "@/lib/cefrDictionary";
 import { CEFRLevel } from "@/db/schema";
+import type { Locale } from "@/types/types";
 
 interface ItemListCardProps {
   titleText: string;
@@ -13,7 +15,8 @@ interface ItemListCardProps {
 }
 
 export default function ItemListCard(props: ItemListCardProps) {
-  const description = cefrDictionary["en"][props.cefrLevel];
+  const locale: Locale = useLocale() === "en" ? "en" : "ja";
+  const description = cefrDictionary[locale][props.cefrLevel];
 
   return (
     <Card className="hover:shadow-accent">

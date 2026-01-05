@@ -20,6 +20,8 @@ export interface LevelData {
   unit: number;
 }
 
+export type Locale = "en" | "ja";
+
 export interface TitleData {
   id: number;
   title: string;

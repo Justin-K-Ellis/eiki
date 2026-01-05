@@ -34,7 +34,6 @@ export default function Home() {
   return (
     <>
       <h1>{t("title")}</h1>
-      {/* <ItemListContainer cefrLevel="A1" unit={1} /> */}
       {levelData.map((data) => (
         <ItemListContainer
           cefrLevel={data.level}
