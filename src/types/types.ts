@@ -15,6 +15,11 @@ export interface ItemInterface {
   options: Option[];
 }
 
+export interface LevelData {
+  level: CEFRLevel;
+  unit: number;
+}
+
 export interface TitleData {
   id: number;
   title: string;
