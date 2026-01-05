@@ -1,6 +1,6 @@
 import fs from "fs/promises";
 import "dotenv/config";
-import { drizzle } from "drizzle-orm/neon-http";
+import { drizzle } from "drizzle-orm/node-postgres";
 import { passagesTable, optionsTable } from "../schema";
 import rs from "text-readability";
 import type { ItemContent } from "../../types/types";
@@ -14,8 +14,9 @@ export default async function seedPassageAndOptions(): Promise<void> {
   }
 
   try {
-    console.log("Seeding passages and options");
+    console.log("Seeding passages and options...");
     for (const item of items) {
+      console.log(`Seeding ${item.title}...`);
       // Seed passage
       const readability = rs.fleschKincaidGrade(item.body);
       const [{ passageId }] = await db
@@ -51,6 +52,8 @@ export default async function seedPassageAndOptions(): Promise<void> {
       `!! Something went wrong when seeding the passages and options !!`
     );
     console.error(error);
+  } finally {
+    console.log("Seeding items complete.");
   }
 }
 
