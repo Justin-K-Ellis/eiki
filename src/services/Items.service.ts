@@ -1,7 +1,7 @@
 import type { ItemsServiceInterface } from "@/types/types";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq } from "drizzle-orm";
-import { passagesTable } from "@/db/schema";
+import { passagesTable, optionsTable } from "@/db/schema";
 import "dotenv/config";
 import { asc } from "drizzle-orm";
 import { TitleData, ItemInterface } from "@/types/types";
@@ -18,7 +18,20 @@ class ItemService implements ItemsServiceInterface {
     return titles;
   }
 
-  // async getItem(_id: number): Promise<ItemInterface> {}
+  async getItem(id: number): Promise<ItemInterface> {
+    const [passage] = await this.db
+      .select()
+      .from(passagesTable)
+      .where(eq(passagesTable.id, id));
+
+    const options = await this.db
+      .select()
+      .from(optionsTable)
+      .where(eq(optionsTable.passage_id, passage.id))
+      .orderBy(asc(optionsTable.text));
+
+    return { passage, options };
+  }
 }
 
 const itemService = new ItemService();
