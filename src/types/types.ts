@@ -22,5 +22,5 @@ export interface TitleData {
 
 export interface ItemsServiceInterface {
   getItemList: (unitIdentifier: number) => Promise<TitleData[]>;
-  getItem: (id: number) => Promise<ItemInterface>;
+  // getItem: (id: number) => Promise<ItemInterface>;
 }

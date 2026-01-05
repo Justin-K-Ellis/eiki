@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { drizzle } from "drizzle-orm/neon-http";
+import { drizzle } from "drizzle-orm/node-postgres";
 import { unitsTable } from "../schema";
 import type { UnitDTO } from "../schema";
 
@@ -48,11 +48,15 @@ export default async function seedUnits() {
   try {
     console.log("Seeding units...");
     for (const unit of units) {
+      console.log(`Seeding unit ${unit.unit_identifier}...`);
       await db.insert(unitsTable).values(unit);
     }
-    console.log("Units seeded.");
   } catch (error) {
     console.warn(`!! Something went wrong when seeding the DB !!\n`);
     console.error(error);
+  } finally {
+    console.log("Units seeded.");
   }
 }
+
+seedUnits();
