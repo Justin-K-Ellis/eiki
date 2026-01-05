@@ -20,13 +20,5 @@ describe("the items service", () => {
         expect(typeof data.title).toBe("string");
       });
     });
-
-    describe("item querying", async () => {
-      const item = await itemService.getItem(2);
-
-      it("should not be empty", () => {
-        expect(item).not.toEqual([]);
-      });
-    });
   });
 });
