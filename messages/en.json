@@ -21,5 +21,8 @@
   },
   "Footer": {
     "name": "Justin Klitgaard"
+  },
+  "ItemListContainer": {
+    "coming-soon": "Items coming soon"
   }
 }

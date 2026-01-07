@@ -21,5 +21,8 @@
   },
   "Footer": {
     "name": "クリトガード・ジャスティン"
+  },
+  "ItemListContainer": {
+    "coming-soon": "アイテムは近日公開予定"
   }
 }

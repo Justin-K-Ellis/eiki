@@ -15,6 +15,13 @@ export interface ItemInterface {
   options: Option[];
 }
 
+export interface LevelData {
+  level: CEFRLevel;
+  unit: number;
+}
+
+export type Locale = "en" | "ja";
+
 export interface TitleData {
   id: number;
   title: string;
