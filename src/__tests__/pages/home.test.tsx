@@ -1,4 +1,4 @@
-import { expect, it, describe, afterEach } from "vitest";
+import { expect, it, describe, afterEach, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { cleanup } from "@testing-library/react";
 
@@ -6,6 +6,10 @@ import { NextIntlClientProvider } from "next-intl";
 import Home from "@/app/[locale]/page";
 import enMessages from "../../../messages/en.json";
 import jaMessages from "../../../messages/ja.json";
+
+vi.mock("@/components/ItemListContainer", () => ({
+  default: () => <div />,
+}));
 
 describe("the Home page", () => {
   afterEach(() => {
@@ -19,8 +23,9 @@ describe("the Home page", () => {
           <Home />
         </NextIntlClientProvider>
       );
-      const title = screen.getByRole("heading").textContent;
-      expect(title).toMatch("Welcome to the home page.");
+      const text = "Welcome to the home page";
+      const title = screen.getByRole("heading", { level: 1 }).textContent;
+      expect(title).toMatch(text);
     });
   });
 
@@ -31,8 +36,9 @@ describe("the Home page", () => {
           <Home />
         </NextIntlClientProvider>
       );
-      const title = screen.getByRole("heading").textContent;
-      expect(title).toMatch("ホームページへようこそ");
+      const text = "ホームページへようこそ";
+      const title = screen.getByRole("heading", { level: 1 }).textContent;
+      expect(title).toMatch(text);
     });
   });
 });
