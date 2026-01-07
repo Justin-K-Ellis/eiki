@@ -11,7 +11,7 @@ export default function Navbar() {
       <h1 className="font-bold text-3xl md:text-4xl">
         <Link href={"/"}>{t("title")}</Link>
       </h1>
-      <ul className="flex gap-1 md:gap-2">
+      <ul className="flex gap-2 md:gap-3 items-center">
         <li>
           <UserButton />
         </li>
