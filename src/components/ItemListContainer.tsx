@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import ItemHeader from "./ItemHeader";
 import ItemListCard from "./ItemListCard";
 import { CEFRLevel } from "@/db/schema";
@@ -9,13 +10,14 @@ interface ItemListContainerProps {
 }
 
 export default async function ItemListContainer(props: ItemListContainerProps) {
+  const t = await getTranslations("ItemListContainer");
   const titleData = await itemService.getItemList(props.unit);
 
   if (titleData.length === 0)
     return (
       <>
         <ItemHeader text={props.cefrLevel} />
-        <p>Items coming soon</p>
+        <p>{t("coming-soon")}</p>
       </>
     );
 
