@@ -27,7 +27,11 @@ export default async function ItemListContainer(props: ItemListContainerProps) {
       <ul className="list-none flex flex-col gap-2">
         {titleData.map((data) => (
           <li key={data.id}>
-            <ItemListCard titleText={data.title} cefrLevel={props.cefrLevel} />
+            <ItemListCard
+              titleText={data.title}
+              cefrLevel={props.cefrLevel}
+              id={data.id}
+            />
           </li>
         ))}
       </ul>
