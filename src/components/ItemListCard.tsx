@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Card,
   CardDescription,
@@ -12,6 +13,7 @@ import type { Locale } from "@/types/types";
 interface ItemListCardProps {
   titleText: string;
   cefrLevel: CEFRLevel;
+  id: number;
 }
 
 export default function ItemListCard(props: ItemListCardProps) {
@@ -19,17 +21,19 @@ export default function ItemListCard(props: ItemListCardProps) {
   const description = cefrDictionary[locale][props.cefrLevel];
 
   return (
-    <Card className="hover:shadow-accent">
-      <CardHeader>
-        <CardTitle>{props.titleText}</CardTitle>
-        <CardDescription>
-          <div className="flex gap-1">
-            <p>{props.cefrLevel}</p>
-            <p>-</p>
-            <p>{description}</p>
-          </div>
-        </CardDescription>
-      </CardHeader>
-    </Card>
+    <Link href={`./item/${props.id}`}>
+      <Card className="hover:shadow-accent">
+        <CardHeader>
+          <CardTitle>{props.titleText}</CardTitle>
+          <CardDescription>
+            <div className="flex gap-1">
+              <p>{props.cefrLevel}</p>
+              <p>-</p>
+              <p>{description}</p>
+            </div>
+          </CardDescription>
+        </CardHeader>
+      </Card>
+    </Link>
   );
 }
