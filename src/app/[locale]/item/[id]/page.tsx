@@ -16,6 +16,7 @@ export default async function AnItem({
         title={item.passage.title}
         body={item.passage.body}
         options={item.options}
+        japaneseTranslation={item.passage.ja_translation}
       />
     </div>
   );
