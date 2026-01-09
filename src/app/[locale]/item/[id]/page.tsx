@@ -1,6 +1,8 @@
+import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import itemService from "@/services/Items.service";
 import ItemCard from "@/components/ItemCard";
+import { ItemInterface } from "@/types/types";
 
 export default async function AnItem({
   params,
@@ -8,7 +10,13 @@ export default async function AnItem({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const item = await itemService.getItem(parseInt(id));
+  let item: ItemInterface;
+  try {
+    item = await itemService.getItem(parseInt(id));
+  } catch (error) {
+    console.error(error);
+    notFound();
+  }
   const t = await getTranslations("ItemCard");
 
   return (
