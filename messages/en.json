@@ -24,5 +24,14 @@
   },
   "ItemListContainer": {
     "coming-soon": "Items coming soon"
+  },
+  "ItemCard": {
+    "questionPrompt": "What is this passage mainly about?",
+    "answerBtn": "Answer",
+    "isAnswer": "Correct Answer",
+    "explanation": "Explanation",
+    "enPassageMarker": "English Passage",
+    "jaPassageMarker": "Japanese Passage",
+    "backBtn": "Back"
   }
 }

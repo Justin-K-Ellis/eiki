@@ -24,5 +24,14 @@
   },
   "ItemListContainer": {
     "coming-soon": "アイテムは近日公開予定"
+  },
+  "ItemCard": {
+    "questionPrompt": "本文の内容を最も表すものを一つ選んでください。",
+    "answerBtn": "回答する",
+    "isAnswer": "正解",
+    "explanation": "解説",
+    "enPassageMarker": "英文",
+    "jaPassageMarker": "和訳",
+    "backBtn": "戻る"
   }
 }

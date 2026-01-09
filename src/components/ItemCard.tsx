@@ -22,11 +22,19 @@ interface ItemCardProps {
   body: string;
   options: Option[];
   japaneseTranslation: string;
+  promptLabel: string;
+  ansBtnLabel: string;
+  isAnsLabel: string;
+  explanationLabel: string;
+  enPassLabel: string;
+  jaPassLabel: string;
+  backBtnLabel: string;
 }
 
 export default function ItemCard(props: ItemCardProps) {
   const [questionAnswered, setQuestionAnswered] = useState(false);
   const [answer, setAnswer] = useState(0);
+  const [answerKey] = props.options.filter((option) => option.is_answer_key);
 
   function handleAnswering(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
@@ -46,7 +54,7 @@ export default function ItemCard(props: ItemCardProps) {
             <p className="text-justify">{props.body}</p>
           </CardContent>
           <CardFooter className="flex flex-col items-start gap-2">
-            <p className="font-bold">What is this passage mainly about?</p>
+            <p className="font-bold">{props.promptLabel}</p>
             <form
               onSubmit={(e) => handleAnswering(e)}
               className="flex flex-col gap-2 w-full"
@@ -64,7 +72,7 @@ export default function ItemCard(props: ItemCardProps) {
                 ))}
               </RadioGroup>
               <CardAction className="flex justify-center w-full">
-                <Button type="submit">Answer</Button>
+                <Button type="submit">{props.ansBtnLabel}</Button>
               </CardAction>
             </form>
           </CardFooter>
@@ -77,20 +85,23 @@ export default function ItemCard(props: ItemCardProps) {
       <Card>
         <CardHeader>
           <CardTitle>{props.title}</CardTitle>
-          <CardDescription>Explanation</CardDescription>
+          <CardDescription>{props.explanationLabel}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-2">
-            <p className="underline">English Passage</p>
+            <p className="font-bold">
+              {props.isAnsLabel}: {answerKey.text}
+            </p>
+            <p className="underline">{props.enPassLabel}</p>
             <p className="text-justify">{props.body}</p>
-            <p className="underline">Japanese Translation</p>
+            <p className="underline">{props.jaPassLabel}</p>
             <p className="text-justify">{props.japaneseTranslation}</p>
           </div>
         </CardContent>
         <CardFooter>
           <CardAction>
             <form onSubmit={(e) => handleAnswering(e)}>
-              <Button type="submit">Back</Button>
+              <Button type="submit">{props.backBtnLabel}</Button>
             </form>
           </CardAction>
         </CardFooter>
