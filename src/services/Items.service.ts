@@ -1,6 +1,6 @@
 import type { ItemsServiceInterface } from "@/types/types";
 import { drizzle } from "drizzle-orm/node-postgres";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { passagesTable, optionsTable } from "@/db/schema";
 import "dotenv/config";
 import { asc } from "drizzle-orm";
@@ -31,6 +31,24 @@ class ItemService implements ItemsServiceInterface {
       .orderBy(asc(optionsTable.text));
 
     return { passage, options };
+  }
+
+  async scoreAnswer(passageId: number, optionId: number): Promise<boolean> {
+    const [{ isAnswerKey }] = await this.db
+      .select({ isAnswerKey: optionsTable.is_answer_key })
+      .from(optionsTable)
+      .where(
+        and(
+          eq(optionsTable.id, optionId),
+          eq(optionsTable.passage_id, passageId)
+        )
+      );
+
+    if (isAnswerKey === null) {
+      throw new Error("Option id does not match passage id.");
+    }
+
+    return isAnswerKey;
   }
 }
 
