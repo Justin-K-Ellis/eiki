@@ -87,5 +87,8 @@ export type Option = InferSelectModel<typeof optionsTable>;
 export type Vocab = InferSelectModel<typeof vocabTable>;
 export type Unit = InferSelectModel<typeof unitsTable>;
 export type CEFRLevel = (typeof cefrEnum.enumValues)[number];
+export type UserPassageAttempts = InferSelectModel<
+  typeof userPassageAttemptsTable
+>;
 
 export type UnitDTO = Omit<Unit, "id">;
