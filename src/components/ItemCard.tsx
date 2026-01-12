@@ -65,13 +65,16 @@ export default function ItemCard(props: ItemCardProps) {
               className="flex flex-col gap-2 w-full"
               id="item-form"
             >
-              <RadioGroup required name="option-id">
+              <RadioGroup
+                required
+                name="option-id"
+                onValueChange={(value) => setAnswerId(parseInt(value))}
+              >
                 {props.options.map((option, index) => (
                   <div key={option.id} className="flex items-center space-x-2">
                     <RadioGroupItem
                       value={option.id.toString()}
                       id={`option-${index + 1}`}
-                      onChange={() => setAnswerId(option.id)}
                     />
                     <Label htmlFor={`option-${index + 1}`}>{option.text}</Label>
                   </div>
