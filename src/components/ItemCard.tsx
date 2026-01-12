@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { scoreAnswer } from "@/lib/actions";
 
 import {
   Card,
@@ -20,6 +21,7 @@ import { Option } from "@/db/schema";
 interface ItemCardProps {
   title: string;
   body: string;
+  passageId: number;
   options: Option[];
   japaneseTranslation: string;
   promptLabel: string;
@@ -33,12 +35,15 @@ interface ItemCardProps {
 
 export default function ItemCard(props: ItemCardProps) {
   const [questionAnswered, setQuestionAnswered] = useState(false);
-  const [answer, setAnswer] = useState(0);
+  const [answerId, setAnswerId] = useState(0);
   const [answerKey] = props.options.filter((option) => option.is_answer_key);
 
-  function handleAnswering(event: FormEvent<HTMLFormElement>): void {
+  async function handleSubmit(
+    event: FormEvent<HTMLFormElement>
+  ): Promise<void> {
     event.preventDefault();
     setQuestionAnswered(!questionAnswered);
+    await scoreAnswer(answerId, props.passageId);
   }
 
   if (!questionAnswered)
@@ -56,16 +61,17 @@ export default function ItemCard(props: ItemCardProps) {
           <CardFooter className="flex flex-col items-start gap-2">
             <p className="font-bold">{props.promptLabel}</p>
             <form
-              onSubmit={(e) => handleAnswering(e)}
+              onSubmit={handleSubmit}
               className="flex flex-col gap-2 w-full"
               id="item-form"
             >
-              <RadioGroup required>
+              <RadioGroup required name="option-id">
                 {props.options.map((option, index) => (
                   <div key={option.id} className="flex items-center space-x-2">
                     <RadioGroupItem
-                      value={option.text}
+                      value={option.id.toString()}
                       id={`option-${index + 1}`}
+                      onChange={() => setAnswerId(option.id)}
                     />
                     <Label htmlFor={`option-${index + 1}`}>{option.text}</Label>
                   </div>

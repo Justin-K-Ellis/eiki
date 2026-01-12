@@ -24,6 +24,7 @@ export default async function AnItem({
       <ItemCard
         title={item.passage.title}
         body={item.passage.body}
+        passageId={item.passage.id}
         options={item.options}
         japaneseTranslation={item.passage.ja_translation}
         promptLabel={t("questionPrompt")}
