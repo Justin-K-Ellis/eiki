@@ -42,7 +42,7 @@ export interface ItemsServiceInterface {
 
 export interface UsersServiceInterface {
   updatePassageAttempts: (
-    userId: number,
+    userId: string,
     passageId: number,
     correctlyAnswered: boolean
   ) => Promise<UserPassageAttempts>;

@@ -7,11 +7,11 @@ import { UserPassageAttempts } from "@/db/schema";
 
 class UsersService implements UsersServiceInterface {
   async updatePassageAttempts(
-    userId: number,
+    userId: string,
     passageId: number,
     correctlyAnswered: boolean
   ): Promise<UserPassageAttempts> {
-    const row = await db
+    const rows = await db
       .insert(userPassageAttemptsTable)
       .values({
         user_id: userId,
@@ -21,7 +21,7 @@ class UsersService implements UsersServiceInterface {
         total_attempts: 1,
       })
       .onConflictDoUpdate({
-        target: userPassageAttemptsTable.id,
+        target: userPassageAttemptsTable.user_id,
         set: {
           correctly_answered: correctlyAnswered,
           last_attempted_at: new Date(),
@@ -30,7 +30,7 @@ class UsersService implements UsersServiceInterface {
       })
       .returning();
 
-    const userPassageAttempts = row[0];
+    const userPassageAttempts = rows[0];
     return userPassageAttempts;
   }
 }
