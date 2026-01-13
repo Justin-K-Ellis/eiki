@@ -34,6 +34,7 @@ export default async function AnItem({
         enPassLabel={t("enPassageMarker")}
         jaPassLabel={t("jaPassageMarker")}
         backBtnLabel={t("backBtn")}
+        scoringNow={t("scoringNow")}
       />
     </div>
   );

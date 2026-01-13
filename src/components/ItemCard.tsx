@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "./ui/button";
 
+import LoadingCard from "./LoadingCard";
 import { Option } from "@/db/schema";
 
 interface ItemCardProps {
@@ -31,20 +32,26 @@ interface ItemCardProps {
   enPassLabel: string;
   jaPassLabel: string;
   backBtnLabel: string;
+  scoringNow: string;
 }
 
 export default function ItemCard(props: ItemCardProps) {
   const [questionAnswered, setQuestionAnswered] = useState(false);
   const [answerId, setAnswerId] = useState(0);
+  const [loading, setLoading] = useState(false);
   const [answerKey] = props.options.filter((option) => option.is_answer_key);
 
   async function handleSubmit(
     event: FormEvent<HTMLFormElement>
   ): Promise<void> {
     event.preventDefault();
-    setQuestionAnswered(!questionAnswered);
+    setLoading(true);
     await scoreAnswer(answerId, props.passageId);
+    setLoading(false);
+    setQuestionAnswered(!questionAnswered);
   }
+
+  if (loading) return <LoadingCard text={props.scoringNow} />;
 
   if (!questionAnswered)
     return (

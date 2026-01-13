@@ -7,7 +7,7 @@ import usersService from "@/services/Users.service";
 export async function scoreAnswer(
   optionId: number,
   passageId: number
-): Promise<void> {
+): Promise<boolean | void> {
   const { isAuthenticated } = await auth();
   if (!isAuthenticated) return;
   const user = await currentUser();
@@ -15,12 +15,8 @@ export async function scoreAnswer(
 
   try {
     const isCorrect = await itemService.scoreAnswer(passageId, optionId);
-    const userPassageData = await usersService.updatePassageAttempts(
-      user.id,
-      passageId,
-      isCorrect
-    );
-    console.log(userPassageData);
+    await usersService.updatePassageAttempts(user.id, passageId, isCorrect);
+    return isCorrect;
   } catch (error) {
     console.error(error);
   }
