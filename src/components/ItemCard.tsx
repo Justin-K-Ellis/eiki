@@ -116,7 +116,7 @@ export default function ItemCard(props: ItemCardProps) {
         </CardContent>
         <CardFooter>
           <CardAction>
-            <form onSubmit={(e) => handleAnswering(e)}>
+            <form onSubmit={(e) => handleSubmit(e)}>
               <Button type="submit">{props.backBtnLabel}</Button>
             </form>
           </CardAction>
