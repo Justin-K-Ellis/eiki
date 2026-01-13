@@ -32,6 +32,7 @@
     "explanation": "Explanation",
     "enPassageMarker": "English Passage",
     "jaPassageMarker": "Japanese Passage",
-    "backBtn": "Back"
+    "backBtn": "Back",
+    "scoringNow": "Scoring..."
   }
 }

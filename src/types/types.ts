@@ -1,5 +1,11 @@
-import type { CEFRLevel, Passage, Option } from "../db/schema";
+import type {
+  CEFRLevel,
+  Passage,
+  Option,
+  UserPassageAttempts,
+} from "../db/schema";
 
+// Data types
 export interface ItemContent {
   title: string;
   body: string;
@@ -27,7 +33,17 @@ export interface TitleData {
   title: string;
 }
 
+// Class interfaces
 export interface ItemsServiceInterface {
   getItemList: (unitIdentifier: number) => Promise<TitleData[]>;
   getItem: (id: number) => Promise<ItemInterface>;
+  scoreAnswer: (passageId: number, optionId: number) => Promise<boolean>;
+}
+
+export interface UsersServiceInterface {
+  updatePassageAttempts: (
+    userId: string,
+    passageId: number,
+    correctlyAnswered: boolean
+  ) => Promise<UserPassageAttempts>;
 }

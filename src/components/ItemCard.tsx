@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { scoreAnswer } from "@/lib/actions";
 
 import {
   Card,
@@ -15,11 +16,13 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "./ui/button";
 
+import LoadingCard from "./LoadingCard";
 import { Option } from "@/db/schema";
 
 interface ItemCardProps {
   title: string;
   body: string;
+  passageId: number;
   options: Option[];
   japaneseTranslation: string;
   promptLabel: string;
@@ -29,17 +32,26 @@ interface ItemCardProps {
   enPassLabel: string;
   jaPassLabel: string;
   backBtnLabel: string;
+  scoringNow: string;
 }
 
 export default function ItemCard(props: ItemCardProps) {
   const [questionAnswered, setQuestionAnswered] = useState(false);
-  const [answer, setAnswer] = useState(0);
+  const [answerId, setAnswerId] = useState(0);
+  const [loading, setLoading] = useState(false);
   const [answerKey] = props.options.filter((option) => option.is_answer_key);
 
-  function handleAnswering(event: FormEvent<HTMLFormElement>): void {
+  async function handleSubmit(
+    event: FormEvent<HTMLFormElement>
+  ): Promise<void> {
     event.preventDefault();
+    setLoading(true);
+    await scoreAnswer(answerId, props.passageId);
+    setLoading(false);
     setQuestionAnswered(!questionAnswered);
   }
+
+  if (loading) return <LoadingCard text={props.scoringNow} />;
 
   if (!questionAnswered)
     return (
@@ -56,15 +68,19 @@ export default function ItemCard(props: ItemCardProps) {
           <CardFooter className="flex flex-col items-start gap-2">
             <p className="font-bold">{props.promptLabel}</p>
             <form
-              onSubmit={(e) => handleAnswering(e)}
+              onSubmit={handleSubmit}
               className="flex flex-col gap-2 w-full"
               id="item-form"
             >
-              <RadioGroup required>
+              <RadioGroup
+                required
+                name="option-id"
+                onValueChange={(value) => setAnswerId(parseInt(value))}
+              >
                 {props.options.map((option, index) => (
                   <div key={option.id} className="flex items-center space-x-2">
                     <RadioGroupItem
-                      value={option.text}
+                      value={option.id.toString()}
                       id={`option-${index + 1}`}
                     />
                     <Label htmlFor={`option-${index + 1}`}>{option.text}</Label>
@@ -100,7 +116,7 @@ export default function ItemCard(props: ItemCardProps) {
         </CardContent>
         <CardFooter>
           <CardAction>
-            <form onSubmit={(e) => handleAnswering(e)}>
+            <form onSubmit={(e) => handleSubmit(e)}>
               <Button type="submit">{props.backBtnLabel}</Button>
             </form>
           </CardAction>

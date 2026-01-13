@@ -65,7 +65,7 @@ export const vocabTable = pgTable("vocab", {
 // === Join tables ===
 export const userPassageAttemptsTable = pgTable("user_passage_attempts", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  user_id: integer().references(() => usersTable.id),
+  user_id: text().unique(),
   passage_id: integer().references(() => passagesTable.id),
   correctly_answered: boolean().default(false),
   last_attempted_at: timestamp(),
@@ -74,7 +74,7 @@ export const userPassageAttemptsTable = pgTable("user_passage_attempts", {
 
 export const userVocabTable = pgTable("user_vocab", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  user_id: integer().references(() => usersTable.id),
+  user_id: text().unique(),
   vocab_id: integer().references(() => vocabTable.id),
   review_score: varchar({ length: 256 }),
   last_reviewed_at: timestamp(),
@@ -87,5 +87,8 @@ export type Option = InferSelectModel<typeof optionsTable>;
 export type Vocab = InferSelectModel<typeof vocabTable>;
 export type Unit = InferSelectModel<typeof unitsTable>;
 export type CEFRLevel = (typeof cefrEnum.enumValues)[number];
+export type UserPassageAttempts = InferSelectModel<
+  typeof userPassageAttemptsTable
+>;
 
 export type UnitDTO = Omit<Unit, "id">;
