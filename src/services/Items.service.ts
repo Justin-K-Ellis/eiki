@@ -1,10 +1,13 @@
-import type { ItemsServiceInterface } from "@/types/types";
-import { eq, and } from "drizzle-orm";
-import { passagesTable, optionsTable } from "@/db/schema";
 import "dotenv/config";
-import { asc } from "drizzle-orm";
-import { TitleData, ItemInterface } from "@/types/types";
+import { eq, and, asc } from "drizzle-orm";
+
+import { passagesTable, optionsTable } from "@/db/schema";
 import db from "../db/index";
+import type {
+  TitleData,
+  ItemInterface,
+  ItemsServiceInterface,
+} from "@/types/types";
 
 class ItemService implements ItemsServiceInterface {
   async getItemList(unitIdentifier: number): Promise<TitleData[]> {
