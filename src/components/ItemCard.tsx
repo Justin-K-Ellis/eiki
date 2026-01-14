@@ -17,6 +17,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "./ui/button";
 
 import LoadingCard from "./LoadingCard";
+import AnswerFeedback from "./AnswerFeedback";
 import { Option } from "@/db/schema";
 
 interface ItemCardProps {
@@ -39,6 +40,7 @@ export default function ItemCard(props: ItemCardProps) {
   const [questionAnswered, setQuestionAnswered] = useState(false);
   const [answerId, setAnswerId] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [isCorrect, setIsCorrect] = useState<boolean | null>(false);
   const [answerKey] = props.options.filter((option) => option.is_answer_key);
 
   async function handleSubmit(
@@ -46,7 +48,8 @@ export default function ItemCard(props: ItemCardProps) {
   ): Promise<void> {
     event.preventDefault();
     setLoading(true);
-    await scoreAnswer(answerId, props.passageId);
+    const scoreEvaluation = await scoreAnswer(answerId, props.passageId);
+    setIsCorrect(scoreEvaluation);
     setLoading(false);
     setQuestionAnswered(!questionAnswered);
   }
@@ -105,6 +108,7 @@ export default function ItemCard(props: ItemCardProps) {
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-2">
+            <AnswerFeedback correct={isCorrect!} />
             <p className="font-bold">
               {props.isAnsLabel}: {answerKey.text}
             </p>
