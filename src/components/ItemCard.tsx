@@ -2,7 +2,6 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import { scoreAnswer } from "@/lib/actions";
 
 import {
   Card,
@@ -20,6 +19,7 @@ import { Button } from "./ui/button";
 import LoadingCard from "./LoadingCard";
 import AnswerFeedback from "./AnswerFeedback";
 import { Option } from "@/db/schema";
+import { scoreAnswer } from "@/lib/actions";
 
 interface ItemCardProps {
   title: string;
