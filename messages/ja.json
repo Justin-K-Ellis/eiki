@@ -1,14 +1,4 @@
 {
-  "LandingPage": {
-    "title": "英記",
-    "subtitle": "読む・覚える",
-    "blurb": "英語学習を始めるには、ログインまたは新規登録してください。",
-    "sign-in": "ログイン",
-    "sign-up": "新規登録"
-  },
-  "Home": {
-    "title": "ホームページへようこそ"
-  },
   "About": {
     "title": "英記について",
     "content1": "英記は、理解度をテストしながら語彙の暗記をサポートする英語教育アプリです。",
@@ -19,16 +9,18 @@
     "correctMsg": "正解！",
     "incorrectMsg": "不正解"
   },
-  "Navbar": {
-    "title": "英記",
-    "login": "ログイン",
-    "about": "英記について"
-  },
   "Footer": {
     "name": "クリトガード・ジャスティン"
   },
-  "ItemListContainer": {
-    "coming-soon": "アイテムは近日公開予定"
+  "Home": {
+    "title": "ホームページへようこそ"
+  },
+  "LandingPage": {
+    "title": "英記",
+    "subtitle": "読む・覚える",
+    "blurb": "英語学習を始めるには、ログインまたは新規登録してください。",
+    "sign-in": "ログイン",
+    "sign-up": "新規登録"
   },
   "ItemCard": {
     "questionPrompt": "本文の内容を最も表すものを一つ選んでください。",
@@ -39,5 +31,13 @@
     "jaPassageMarker": "和訳",
     "backBtn": "戻る",
     "scoringNow": "採点中"
+  },
+  "ItemListContainer": {
+    "coming-soon": "アイテムは近日公開予定"
+  },
+  "Navbar": {
+    "title": "英記",
+    "login": "ログイン",
+    "about": "英記について"
   }
 }
