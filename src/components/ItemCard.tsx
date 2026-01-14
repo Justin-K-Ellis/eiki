@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { scoreAnswer } from "@/lib/actions";
+import Link from "next/link";
 
 import {
   Card,
@@ -19,6 +19,7 @@ import { Button } from "./ui/button";
 import LoadingCard from "./LoadingCard";
 import AnswerFeedback from "./AnswerFeedback";
 import { Option } from "@/db/schema";
+import { scoreAnswer } from "@/lib/actions";
 
 interface ItemCardProps {
   title: string;
@@ -120,9 +121,9 @@ export default function ItemCard(props: ItemCardProps) {
         </CardContent>
         <CardFooter>
           <CardAction>
-            <form onSubmit={(e) => handleSubmit(e)}>
-              <Button type="submit">{props.backBtnLabel}</Button>
-            </form>
+            <Button type="button">
+              <Link href={"/"}>{props.backBtnLabel}</Link>
+            </Button>
           </CardAction>
         </CardFooter>
       </Card>
