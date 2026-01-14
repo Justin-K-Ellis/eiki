@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import Link from "next/link";
 import { scoreAnswer } from "@/lib/actions";
 
 import {
@@ -120,9 +121,9 @@ export default function ItemCard(props: ItemCardProps) {
         </CardContent>
         <CardFooter>
           <CardAction>
-            <form onSubmit={(e) => handleSubmit(e)}>
-              <Button type="submit">{props.backBtnLabel}</Button>
-            </form>
+            <Button type="button">
+              <Link href={"/"}>{props.backBtnLabel}</Link>
+            </Button>
           </CardAction>
         </CardFooter>
       </Card>
