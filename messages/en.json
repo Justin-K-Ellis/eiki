@@ -14,6 +14,11 @@
     "content1": "Eiki is an English education app that lets you learn English by both testing your understanding and guiding your vocab memorization.",
     "content2": "With Eiki, you work through reading comprehension passages that gradually increase in difficulty. At any time, you can select a word to put in your vocabulary bank. Eiki will automatically schedule review sessions for you using a spaced repetetion algorthm. Easy words are seen less often and difficult words are seen more often."
   },
+  "AnswerFeedback": {
+    "answerTag": "Answer",
+    "correctMsg": "Correct!",
+    "incorrectMsg": "Incorrect"
+  },
   "Navbar": {
     "title": "Eiki",
     "login": "Login",
