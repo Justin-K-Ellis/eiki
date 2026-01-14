@@ -1,16 +1,14 @@
 import type { ItemsServiceInterface } from "@/types/types";
-import { drizzle } from "drizzle-orm/node-postgres";
 import { eq, and } from "drizzle-orm";
 import { passagesTable, optionsTable } from "@/db/schema";
 import "dotenv/config";
 import { asc } from "drizzle-orm";
 import { TitleData, ItemInterface } from "@/types/types";
+import db from "../db/index";
 
 class ItemService implements ItemsServiceInterface {
-  private db = drizzle(process.env.DATABASE_URL!);
-
   async getItemList(unitIdentifier: number): Promise<TitleData[]> {
-    const titles = await this.db
+    const titles = await db
       .select({ id: passagesTable.id, title: passagesTable.title })
       .from(passagesTable)
       .where(eq(passagesTable.unit, unitIdentifier))
@@ -19,12 +17,12 @@ class ItemService implements ItemsServiceInterface {
   }
 
   async getItem(id: number): Promise<ItemInterface> {
-    const [passage] = await this.db
+    const [passage] = await db
       .select()
       .from(passagesTable)
       .where(eq(passagesTable.id, id));
 
-    const options = await this.db
+    const options = await db
       .select()
       .from(optionsTable)
       .where(eq(optionsTable.passage_id, passage.id))
@@ -37,7 +35,7 @@ class ItemService implements ItemsServiceInterface {
     passageId: number,
     optionId: number
   ): Promise<boolean | null> {
-    const rows = await this.db
+    const rows = await db
       .select({ isAnswerKey: optionsTable.is_answer_key })
       .from(optionsTable)
       .where(
