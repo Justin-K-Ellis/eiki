@@ -55,7 +55,12 @@ export default function ItemCard(props: ItemCardProps) {
     setQuestionAnswered(!questionAnswered);
   }
 
-  if (loading) return <LoadingCard text={props.scoringNow} />;
+  if (loading)
+    return (
+      <div className="flex justify-center items-center">
+        <LoadingCard text={props.scoringNow} />
+      </div>
+    );
 
   if (!questionAnswered)
     return (
