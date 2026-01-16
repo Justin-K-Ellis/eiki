@@ -7,7 +7,6 @@ export default function Footer() {
     <footer
       className="flex justify-center items-center shadow p-6 md:p-12"
       id="footer"
-      hidden
     >
       <p>
         &copy; {d.getFullYear()} {t("name")}
