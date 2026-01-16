@@ -3,6 +3,7 @@ import {
   integer,
   pgEnum,
   pgTable,
+  primaryKey,
   real,
   text,
   timestamp,
@@ -63,14 +64,17 @@ export const vocabTable = pgTable("vocab", {
 });
 
 // === Join tables ===
-export const userPassageAttemptsTable = pgTable("user_passage_attempts", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  user_id: text().unique(),
-  passage_id: integer().references(() => passagesTable.id),
-  correctly_answered: boolean().default(false),
-  last_attempted_at: timestamp(),
-  total_attempts: integer().default(0),
-});
+export const userPassageAttemptsTable = pgTable(
+  "user_passage_attempts",
+  {
+    user_id: text(),
+    passage_id: integer().references(() => passagesTable.id),
+    correctly_answered: boolean().default(false),
+    last_attempted_at: timestamp(),
+    total_attempts: integer().default(0),
+  },
+  (table) => [primaryKey({ columns: [table.user_id, table.passage_id] })]
+);
 
 export const userVocabTable = pgTable("user_vocab", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),

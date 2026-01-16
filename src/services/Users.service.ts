@@ -21,7 +21,10 @@ class UsersService implements UsersServiceInterface {
         total_attempts: 1,
       })
       .onConflictDoUpdate({
-        target: userPassageAttemptsTable.user_id,
+        target: [
+          userPassageAttemptsTable.user_id,
+          userPassageAttemptsTable.passage_id,
+        ],
         set: {
           correctly_answered: correctlyAnswered,
           last_attempted_at: new Date(),
