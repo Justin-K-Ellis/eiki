@@ -1,0 +1,2 @@
+ALTER TABLE "user_passage_attempts" DROP COLUMN "id";
+ALTER TABLE "user_passage_attempts" ADD CONSTRAINT "user_passage_attempts_user_id_passage_id_pk" PRIMARY KEY("user_id","passage_id");--> statement-breakpoint

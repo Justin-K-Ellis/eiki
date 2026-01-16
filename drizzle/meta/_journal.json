@@ -36,6 +36,20 @@
       "when": 1768288609942,
       "tag": "0004_watery_talisman",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1768567259755,
+      "tag": "0005_dazzling_layla_miller",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1768567714887,
+      "tag": "0006_nostalgic_ultragirl",
+      "breakpoints": true
     }
   ]
 }

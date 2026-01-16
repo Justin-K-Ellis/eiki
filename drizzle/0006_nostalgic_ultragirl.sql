@@ -1,0 +1,1 @@
+ALTER TABLE "user_passage_attempts" DROP CONSTRAINT "user_passage_attempts_user_id_unique";
