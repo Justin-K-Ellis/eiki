@@ -5,9 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useLocale } from "next-intl";
-import cefrDictionary from "@/lib/cefrDictionary";
-import type { Locale } from "@/types/types";
+import ProgressBadge from "./ProgressBadge";
 
 interface ItemListCardProps {
   id: number;
@@ -17,16 +15,13 @@ interface ItemListCardProps {
 }
 
 export default function ItemListCard(props: ItemListCardProps) {
-  // console.log(props);
-
-  const locale: Locale = useLocale() === "en" ? "en" : "ja";
   const progressMessage = () => {
     if (props.correctlyAnswered) {
-      return "Done!";
+      return <ProgressBadge progressStatus="done" />;
     } else if (props.totalAttempts === 0 || props.totalAttempts === null) {
-      return "Not attempted";
+      return <ProgressBadge progressStatus="notAttempted" />;
     } else {
-      return "Try again!";
+      return <ProgressBadge progressStatus="tryAgain" />;
     }
   };
 
