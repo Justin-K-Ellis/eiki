@@ -7,18 +7,28 @@ import {
 } from "@/components/ui/card";
 import { useLocale } from "next-intl";
 import cefrDictionary from "@/lib/cefrDictionary";
-import { CEFRLevel } from "@/db/schema";
 import type { Locale } from "@/types/types";
 
 interface ItemListCardProps {
-  titleText: string;
-  cefrLevel: CEFRLevel;
   id: number;
+  titleText: string;
+  correctlyAnswered: boolean | null;
+  totalAttempts: number | null;
 }
 
 export default function ItemListCard(props: ItemListCardProps) {
+  // console.log(props);
+
   const locale: Locale = useLocale() === "en" ? "en" : "ja";
-  const description = cefrDictionary[locale][props.cefrLevel];
+  const progressMessage = () => {
+    if (props.correctlyAnswered) {
+      return "Done!";
+    } else if (props.totalAttempts === 0 || props.totalAttempts === null) {
+      return "Not attempted";
+    } else {
+      return "Try again!";
+    }
+  };
 
   return (
     <Link href={`./item/${props.id}`}>
@@ -27,9 +37,7 @@ export default function ItemListCard(props: ItemListCardProps) {
           <CardTitle>{props.titleText}</CardTitle>
           <CardDescription>
             <div className="flex gap-1">
-              <p>{props.cefrLevel}</p>
-              <p>-</p>
-              <p>{description}</p>
+              <p>{progressMessage()}</p>
             </div>
           </CardDescription>
         </CardHeader>
