@@ -39,5 +39,10 @@
     "title": "Eiki",
     "login": "Login",
     "about": "About"
+  },
+  "ProgressBadges": {
+    "done": "Done",
+    "tryAgain": "Try again!",
+    "notAttempted": "Not Attempted"
   }
 }

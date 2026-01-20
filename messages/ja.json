@@ -39,5 +39,10 @@
     "title": "英記",
     "login": "ログイン",
     "about": "英記について"
+  },
+  "ProgressBadges": {
+    "done": "完成",
+    "tryAgain": "もう一回！",
+    "notAttempted": "未回答"
   }
 }

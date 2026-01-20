@@ -28,9 +28,10 @@ export default async function ItemListContainer(props: ItemListContainerProps) {
         {titleData.map((data) => (
           <li key={data.id}>
             <ItemListCard
-              titleText={data.title}
-              cefrLevel={props.cefrLevel}
               id={data.id}
+              titleText={data.title}
+              correctlyAnswered={data.correctlyAnswered}
+              totalAttempts={data.totalAttempts}
             />
           </li>
         ))}

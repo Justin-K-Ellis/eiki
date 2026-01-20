@@ -45,7 +45,7 @@ export default function ItemCard(props: ItemCardProps) {
   const [answerKey] = props.options.filter((option) => option.is_answer_key);
 
   async function handleSubmit(
-    event: FormEvent<HTMLFormElement>
+    event: FormEvent<HTMLFormElement>,
   ): Promise<void> {
     event.preventDefault();
     setLoading(true);

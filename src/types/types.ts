@@ -33,17 +33,26 @@ export interface TitleData {
   title: string;
 }
 
+export interface UserItemProgress extends TitleData {
+  correctlyAnswered: boolean | null;
+  totalAttempts: number | null;
+}
+
 // Class interfaces
 export interface ItemsServiceInterface {
-  getItemList: (unitIdentifier: number) => Promise<TitleData[]>;
+  getItemList: (unitIdentifier: number) => Promise<UserItemProgress[]>;
   getItem: (id: number) => Promise<ItemInterface>;
   scoreAnswer: (passageId: number, optionId: number) => Promise<boolean | null>;
+  getUserItemProgress: (passageId: number) => Promise<{
+    correctlyAnswered: boolean | null;
+    totalAttempts: number | null;
+  }>;
 }
 
 export interface UsersServiceInterface {
   updatePassageAttempts: (
     userId: string,
     passageId: number,
-    correctlyAnswered: boolean
+    correctlyAnswered: boolean,
   ) => Promise<UserPassageAttempts>;
 }
