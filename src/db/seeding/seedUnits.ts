@@ -4,6 +4,19 @@ import type { UnitDTO } from "../schema";
 
 import db from "../index";
 
+/**
+ * Seeds the `units` table with one row per CEFR level (A1–C2).
+ *
+ * Each unit maps a numeric `unit_identifier` (1–6) to a CEFR level and
+ * stores display names in both English and Japanese. This data is a
+ * prerequisite for seeding `passages`, which hold a foreign key to
+ * `unit_identifier`.
+ *
+ * Logs progress to the console and catches any database errors without
+ * re-throwing, so a failure here won't crash the parent process.
+ *
+ * Run via: `npm run db:seed:units`
+ */
 export default async function seedUnits() {
   const units: UnitDTO[] = [
     {
