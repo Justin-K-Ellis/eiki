@@ -43,10 +43,6 @@ export interface ItemsServiceInterface {
   getItemList: (unitIdentifier: number) => Promise<UserItemProgress[]>;
   getItem: (id: number) => Promise<ItemInterface>;
   scoreAnswer: (passageId: number, optionId: number) => Promise<boolean | null>;
-  getUserItemProgress: (passageId: number) => Promise<{
-    correctlyAnswered: boolean | null;
-    totalAttempts: number | null;
-  }>;
 }
 
 export interface UsersServiceInterface {
