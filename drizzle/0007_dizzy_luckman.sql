@@ -1,0 +1,1 @@
+ALTER TABLE "passages" RENAME COLUMN "cerf_level" TO "cefr_level";

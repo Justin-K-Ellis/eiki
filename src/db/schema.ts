@@ -34,7 +34,7 @@ export const passagesTable = pgTable("passages", {
   readability_score: real().notNull(),
   created_at: timestamp().defaultNow().notNull(),
   ja_translation: text().notNull().unique(),
-  cerf_level: cefrEnum().notNull(),
+  cefr_level: cefrEnum().notNull(),
   unit: integer()
     .references(() => unitsTable.unit_identifier)
     .notNull(),
@@ -73,7 +73,7 @@ export const userPassageAttemptsTable = pgTable(
     last_attempted_at: timestamp(),
     total_attempts: integer().default(0),
   },
-  (table) => [primaryKey({ columns: [table.user_id, table.passage_id] })]
+  (table) => [primaryKey({ columns: [table.user_id, table.passage_id] })],
 );
 
 export const userVocabTable = pgTable("user_vocab", {
