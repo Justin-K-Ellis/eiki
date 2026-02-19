@@ -1,9 +1,8 @@
 import "dotenv/config";
-import { drizzle } from "drizzle-orm/node-postgres";
 import { unitsTable } from "../schema";
 import type { UnitDTO } from "../schema";
 
-const db = drizzle(process.env.DATABASE_URL!);
+import db from "../index";
 
 export default async function seedUnits() {
   const units: UnitDTO[] = [

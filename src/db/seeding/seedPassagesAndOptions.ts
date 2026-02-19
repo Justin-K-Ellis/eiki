@@ -1,11 +1,10 @@
-import fs from "fs/promises";
 import "dotenv/config";
-import { drizzle } from "drizzle-orm/node-postgres";
-import { passagesTable, optionsTable } from "../schema";
+import fs from "fs/promises";
 import rs from "text-readability";
-import type { ItemContent } from "../../types/types";
 
-const db = drizzle(process.env.DATABASE_URL!);
+import { passagesTable, optionsTable } from "../schema";
+import type { ItemContent } from "../../types/types";
+import db from "../index";
 
 export default async function seedPassageAndOptions(): Promise<void> {
   const items: ItemContent[] | null = await getItems();
@@ -25,7 +24,7 @@ export default async function seedPassageAndOptions(): Promise<void> {
           title: item.title,
           body: item.body,
           ja_translation: item.ja_translation,
-          cerf_level: item.cefr_level,
+          cefr_level: item.cefr_level,
           unit: item.unit,
           readability_score: readability,
         })
@@ -49,7 +48,7 @@ export default async function seedPassageAndOptions(): Promise<void> {
     }
   } catch (error) {
     console.error(
-      `!! Something went wrong when seeding the passages and options !!`
+      `!! Something went wrong when seeding the passages and options !!`,
     );
     console.error(error);
   } finally {
@@ -62,7 +61,7 @@ async function getItems(): Promise<ItemContent[] | null> {
   try {
     const fileUrl = new URL(
       "../../../assets/item-content.json",
-      import.meta.url
+      import.meta.url,
     );
     const raw = await fs.readFile(fileUrl, { encoding: "utf8" });
     const items = JSON.parse(raw);
