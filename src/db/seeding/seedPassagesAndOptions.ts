@@ -1,6 +1,8 @@
 import "dotenv/config";
 import fs from "fs/promises";
 import rs from "text-readability";
+import * as z from "zod";
+import { ItemContentSchema } from "../../types/types";
 
 import { passagesTable, optionsTable } from "../schema";
 import type { ItemContent } from "../../types/types";
@@ -70,7 +72,7 @@ async function getItems(): Promise<ItemContent[] | null> {
       import.meta.url,
     );
     const raw = await fs.readFile(fileUrl, { encoding: "utf8" });
-    const items = JSON.parse(raw);
+    const items = z.array(ItemContentSchema).parse(JSON.parse(raw));
     return items;
   } catch (err) {
     console.error("Failed to load item-content.json:", err);
