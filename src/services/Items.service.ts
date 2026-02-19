@@ -87,26 +87,6 @@ class ItemService implements ItemsServiceInterface {
     return { passage, options };
   }
 
-  async getUserItemProgress(passageId: number): Promise<{
-    correctlyAnswered: boolean | null;
-    totalAttempts: number | null;
-  }> {
-    const user = await currentUser();
-    const [data] = await db
-      .select({
-        correctlyAnswered: userPassageAttemptsTable.correctly_answered,
-        totalAttempts: userPassageAttemptsTable.total_attempts,
-      })
-      .from(userPassageAttemptsTable)
-      .where(
-        and(
-          eq(userPassageAttemptsTable.passage_id, passageId),
-          eq(userPassageAttemptsTable.user_id, user!.id),
-        ),
-      );
-    return data;
-  }
-
   async scoreAnswer(
     passageId: number,
     optionId: number,
