@@ -23,10 +23,6 @@ export const cefrEnum = pgEnum("cefr_level", [
 ]);
 
 // === Basic tables ===
-export const usersTable = pgTable("users", {
-  id: integer().primaryKey().notNull(),
-  created_at: timestamp().defaultNow().notNull(),
-});
 
 export const passagesTable = pgTable("passages", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -90,7 +86,6 @@ export const userVocabTable = pgTable(
 );
 
 // Types
-export type User = InferSelectModel<typeof usersTable>;
 export type Passage = InferSelectModel<typeof passagesTable>;
 export type Option = InferSelectModel<typeof optionsTable>;
 export type Vocab = InferSelectModel<typeof vocabTable>;
