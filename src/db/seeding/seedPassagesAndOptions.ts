@@ -20,7 +20,7 @@ export default async function seedPassageAndOptions(): Promise<void> {
       console.log(`Seeding ${item.title}...`);
       // Seed passage
       const readability = rs.fleschKincaidGrade(item.body);
-      const [{ passageId }] = await db
+      const rows = await db
         .insert(passagesTable)
         .values({
           title: item.title,
@@ -32,6 +32,9 @@ export default async function seedPassageAndOptions(): Promise<void> {
         })
         .returning({ passageId: passagesTable.id })
         .onConflictDoNothing();
+
+      if (rows.length === 0) continue; // skip to next passage
+      const [{ passageId }] = rows;
 
       // Seed answer key
       await db
