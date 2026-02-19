@@ -28,22 +28,29 @@ export default async function seedPassageAndOptions(): Promise<void> {
           unit: item.unit,
           readability_score: readability,
         })
-        .returning({ passageId: passagesTable.id });
+        .returning({ passageId: passagesTable.id })
+        .onConflictDoNothing();
 
       // Seed answer key
-      await db.insert(optionsTable).values({
-        text: item.key,
-        is_answer_key: true,
-        passage_id: passageId,
-      });
+      await db
+        .insert(optionsTable)
+        .values({
+          text: item.key,
+          is_answer_key: true,
+          passage_id: passageId,
+        })
+        .onConflictDoNothing();
 
       // Seed distractors
       for (const dist of item.distractors) {
-        await db.insert(optionsTable).values({
-          text: dist,
-          is_answer_key: false,
-          passage_id: passageId,
-        });
+        await db
+          .insert(optionsTable)
+          .values({
+            text: dist,
+            is_answer_key: false,
+            passage_id: passageId,
+          })
+          .onConflictDoNothing();
       }
     }
     console.log("Seeding items complete.");

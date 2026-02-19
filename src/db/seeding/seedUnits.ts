@@ -61,7 +61,7 @@ export default async function seedUnits() {
     console.log("Seeding units...");
     for (const unit of units) {
       console.log(`Seeding unit ${unit.unit_identifier}...`);
-      await db.insert(unitsTable).values(unit);
+      await db.insert(unitsTable).values(unit).onConflictDoNothing();
     }
     console.log("Units seeded.");
   } catch (error) {
