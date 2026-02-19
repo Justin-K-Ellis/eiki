@@ -46,13 +46,12 @@ export default async function seedPassageAndOptions(): Promise<void> {
         });
       }
     }
+    console.log("Seeding items complete.");
   } catch (error) {
     console.error(
       `!! Something went wrong when seeding the passages and options !!`,
     );
     console.error(error);
-  } finally {
-    console.log("Seeding items complete.");
   }
 }
 

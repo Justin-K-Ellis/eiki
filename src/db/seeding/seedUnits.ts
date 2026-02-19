@@ -50,11 +50,10 @@ export default async function seedUnits() {
       console.log(`Seeding unit ${unit.unit_identifier}...`);
       await db.insert(unitsTable).values(unit);
     }
+    console.log("Units seeded.");
   } catch (error) {
     console.warn(`!! Something went wrong when seeding the DB !!\n`);
     console.error(error);
-  } finally {
-    console.log("Units seeded.");
   }
 }
 
