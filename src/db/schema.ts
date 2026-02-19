@@ -8,6 +8,7 @@ import {
   text,
   timestamp,
   varchar,
+  unique,
 } from "drizzle-orm/pg-core";
 import { InferSelectModel } from "drizzle-orm";
 
@@ -76,13 +77,17 @@ export const userPassageAttemptsTable = pgTable(
   (table) => [primaryKey({ columns: [table.user_id, table.passage_id] })],
 );
 
-export const userVocabTable = pgTable("user_vocab", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  user_id: text().unique(),
-  vocab_id: integer().references(() => vocabTable.id),
-  review_score: varchar({ length: 256 }),
-  last_reviewed_at: timestamp(),
-});
+export const userVocabTable = pgTable(
+  "user_vocab",
+  {
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    user_id: text(),
+    vocab_id: integer().references(() => vocabTable.id),
+    review_score: varchar({ length: 256 }),
+    last_reviewed_at: timestamp(),
+  },
+  (table) => [unique().on(table.user_id, table.vocab_id)],
+);
 
 // Types
 export type User = InferSelectModel<typeof usersTable>;
