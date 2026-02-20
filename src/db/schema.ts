@@ -8,6 +8,7 @@ import {
   text,
   timestamp,
   varchar,
+  unique,
 } from "drizzle-orm/pg-core";
 import { InferSelectModel } from "drizzle-orm";
 
@@ -22,10 +23,6 @@ export const cefrEnum = pgEnum("cefr_level", [
 ]);
 
 // === Basic tables ===
-export const usersTable = pgTable("users", {
-  id: integer().primaryKey().notNull(),
-  created_at: timestamp().defaultNow().notNull(),
-});
 
 export const passagesTable = pgTable("passages", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -34,7 +31,7 @@ export const passagesTable = pgTable("passages", {
   readability_score: real().notNull(),
   created_at: timestamp().defaultNow().notNull(),
   ja_translation: text().notNull().unique(),
-  cerf_level: cefrEnum().notNull(),
+  cefr_level: cefrEnum().notNull(),
   unit: integer()
     .references(() => unitsTable.unit_identifier)
     .notNull(),
@@ -73,19 +70,22 @@ export const userPassageAttemptsTable = pgTable(
     last_attempted_at: timestamp(),
     total_attempts: integer().default(0),
   },
-  (table) => [primaryKey({ columns: [table.user_id, table.passage_id] })]
+  (table) => [primaryKey({ columns: [table.user_id, table.passage_id] })],
 );
 
-export const userVocabTable = pgTable("user_vocab", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  user_id: text().unique(),
-  vocab_id: integer().references(() => vocabTable.id),
-  review_score: varchar({ length: 256 }),
-  last_reviewed_at: timestamp(),
-});
+export const userVocabTable = pgTable(
+  "user_vocab",
+  {
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    user_id: text(),
+    vocab_id: integer().references(() => vocabTable.id),
+    review_score: varchar({ length: 256 }),
+    last_reviewed_at: timestamp(),
+  },
+  (table) => [unique().on(table.user_id, table.vocab_id)],
+);
 
 // Types
-export type User = InferSelectModel<typeof usersTable>;
 export type Passage = InferSelectModel<typeof passagesTable>;
 export type Option = InferSelectModel<typeof optionsTable>;
 export type Vocab = InferSelectModel<typeof vocabTable>;

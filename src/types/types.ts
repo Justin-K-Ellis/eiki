@@ -1,3 +1,4 @@
+import * as z from "zod";
 import type {
   CEFRLevel,
   Passage,
@@ -5,16 +6,19 @@ import type {
   UserPassageAttempts,
 } from "../db/schema";
 
+// zod schema
+export const ItemContentSchema = z.object({
+  title: z.string(),
+  body: z.string(),
+  ja_translation: z.string(),
+  cefr_level: z.enum(["A1", "A2", "B1", "B2", "C1", "C2"]),
+  unit: z.number(),
+  key: z.string(),
+  distractors: z.array(z.string()),
+});
+
 // Data types
-export interface ItemContent {
-  title: string;
-  body: string;
-  ja_translation: string;
-  cefr_level: CEFRLevel;
-  unit: number;
-  key: string;
-  distractors: string[];
-}
+export type ItemContent = z.infer<typeof ItemContentSchema>;
 
 export interface ItemInterface {
   passage: Passage;

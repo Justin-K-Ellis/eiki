@@ -1,10 +1,22 @@
 import "dotenv/config";
-import { drizzle } from "drizzle-orm/node-postgres";
 import { unitsTable } from "../schema";
 import type { UnitDTO } from "../schema";
 
-const db = drizzle(process.env.DATABASE_URL!);
+import db from "../index";
 
+/**
+ * Seeds the `units` table with one row per CEFR level (A1–C2).
+ *
+ * Each unit maps a numeric `unit_identifier` (1–6) to a CEFR level and
+ * stores display names in both English and Japanese. This data is a
+ * prerequisite for seeding `passages`, which hold a foreign key to
+ * `unit_identifier`.
+ *
+ * Logs progress to the console and catches any database errors without
+ * re-throwing, so a failure here won't crash the parent process.
+ *
+ * Run via: `npm run db:seed:units`
+ */
 export default async function seedUnits() {
   const units: UnitDTO[] = [
     {
@@ -49,13 +61,12 @@ export default async function seedUnits() {
     console.log("Seeding units...");
     for (const unit of units) {
       console.log(`Seeding unit ${unit.unit_identifier}...`);
-      await db.insert(unitsTable).values(unit);
+      await db.insert(unitsTable).values(unit).onConflictDoNothing();
     }
+    console.log("Units seeded.");
   } catch (error) {
     console.warn(`!! Something went wrong when seeding the DB !!\n`);
     console.error(error);
-  } finally {
-    console.log("Units seeded.");
   }
 }
 

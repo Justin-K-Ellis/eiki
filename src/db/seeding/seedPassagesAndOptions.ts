@@ -1,11 +1,12 @@
-import fs from "fs/promises";
 import "dotenv/config";
-import { drizzle } from "drizzle-orm/node-postgres";
-import { passagesTable, optionsTable } from "../schema";
+import fs from "fs/promises";
 import rs from "text-readability";
-import type { ItemContent } from "../../types/types";
+import * as z from "zod";
+import { ItemContentSchema } from "../../types/types";
 
-const db = drizzle(process.env.DATABASE_URL!);
+import { passagesTable, optionsTable } from "../schema";
+import type { ItemContent } from "../../types/types";
+import db from "../index";
 
 export default async function seedPassageAndOptions(): Promise<void> {
   const items: ItemContent[] | null = await getItems();
@@ -19,41 +20,50 @@ export default async function seedPassageAndOptions(): Promise<void> {
       console.log(`Seeding ${item.title}...`);
       // Seed passage
       const readability = rs.fleschKincaidGrade(item.body);
-      const [{ passageId }] = await db
+      const rows = await db
         .insert(passagesTable)
         .values({
           title: item.title,
           body: item.body,
           ja_translation: item.ja_translation,
-          cerf_level: item.cefr_level,
+          cefr_level: item.cefr_level,
           unit: item.unit,
           readability_score: readability,
         })
-        .returning({ passageId: passagesTable.id });
+        .returning({ passageId: passagesTable.id })
+        .onConflictDoNothing();
+
+      if (rows.length === 0) continue; // skip to next passage
+      const [{ passageId }] = rows;
 
       // Seed answer key
-      await db.insert(optionsTable).values({
-        text: item.key,
-        is_answer_key: true,
-        passage_id: passageId,
-      });
+      await db
+        .insert(optionsTable)
+        .values({
+          text: item.key,
+          is_answer_key: true,
+          passage_id: passageId,
+        })
+        .onConflictDoNothing();
 
       // Seed distractors
       for (const dist of item.distractors) {
-        await db.insert(optionsTable).values({
-          text: dist,
-          is_answer_key: false,
-          passage_id: passageId,
-        });
+        await db
+          .insert(optionsTable)
+          .values({
+            text: dist,
+            is_answer_key: false,
+            passage_id: passageId,
+          })
+          .onConflictDoNothing();
       }
     }
+    console.log("Seeding items complete.");
   } catch (error) {
     console.error(
-      `!! Something went wrong when seeding the passages and options !!`
+      `!! Something went wrong when seeding the passages and options !!`,
     );
     console.error(error);
-  } finally {
-    console.log("Seeding items complete.");
   }
 }
 
@@ -62,10 +72,10 @@ async function getItems(): Promise<ItemContent[] | null> {
   try {
     const fileUrl = new URL(
       "../../../assets/item-content.json",
-      import.meta.url
+      import.meta.url,
     );
     const raw = await fs.readFile(fileUrl, { encoding: "utf8" });
-    const items = JSON.parse(raw);
+    const items = z.array(ItemContentSchema).parse(JSON.parse(raw));
     return items;
   } catch (err) {
     console.error("Failed to load item-content.json:", err);

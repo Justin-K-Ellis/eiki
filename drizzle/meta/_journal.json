@@ -50,6 +50,27 @@
       "when": 1768567714887,
       "tag": "0006_nostalgic_ultragirl",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1771488564181,
+      "tag": "0007_dizzy_luckman",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1771489764218,
+      "tag": "0008_dazzling_sage",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1771489845764,
+      "tag": "0009_flowery_synch",
+      "breakpoints": true
     }
   ]
 }
