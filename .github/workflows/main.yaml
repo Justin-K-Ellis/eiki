@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql://localhost/placeholder
     container:
       image: node:24.5.0
     steps:
