@@ -101,13 +101,12 @@ class ItemService implements ItemsServiceInterface {
         ),
       );
 
-    const isCorrect = rows[0].isAnswerKey;
-
-    if (isCorrect === null) {
+    if (rows.length === 0) {
       console.error("Option id does not match passage id.");
       return null;
     }
 
+    const isCorrect = rows[0].isAnswerKey;
     return isCorrect;
   }
 }
