@@ -34,6 +34,44 @@ describe("ItemService", () => {
     vi.clearAllMocks();
   });
 
+  describe("scoreAnswer", () => {
+    it("returns true when the selected option is the answer key", async () => {
+      vi.mocked(db.select).mockReturnValueOnce({
+        from: vi.fn().mockReturnValue({
+          where: vi.fn().mockResolvedValue([{ isAnswerKey: true }]),
+        }),
+      } as any);
+
+      const result = await itemService.scoreAnswer(1, 1);
+
+      expect(result).toBe(true);
+    });
+
+    it("returns false when the selected option is not the answer key", async () => {
+      vi.mocked(db.select).mockReturnValueOnce({
+        from: vi.fn().mockReturnValue({
+          where: vi.fn().mockResolvedValue([{ isAnswerKey: false }]),
+        }),
+      } as any);
+
+      const result = await itemService.scoreAnswer(1, 2);
+
+      expect(result).toBe(false);
+    });
+
+    it("returns null when the option does not exist", async () => {
+      vi.mocked(db.select).mockReturnValueOnce({
+        from: vi.fn().mockReturnValue({
+          where: vi.fn().mockResolvedValue([]),
+        }),
+      } as any);
+
+      const result = await itemService.scoreAnswer(1, 999);
+
+      expect(result).toBeNull();
+    });
+  });
+
   describe("getItem", () => {
     it("returns the passage and its options", async () => {
       vi.mocked(db.select)
