@@ -1,15 +1,17 @@
-import "dotenv/config";
 import { sql } from "drizzle-orm";
+
+import db from "@/db/index";
+import {
+  userPassageAttemptsTable,
+  type UserPassageAttempts,
+} from "@/db/schema";
 import type { UsersServiceInterface } from "@/types/types";
-import db from "../db/index";
-import { userPassageAttemptsTable } from "@/db/schema";
-import { UserPassageAttempts } from "@/db/schema";
 
 class UsersService implements UsersServiceInterface {
   async updatePassageAttempts(
     userId: string,
     passageId: number,
-    correctlyAnswered: boolean
+    correctlyAnswered: boolean,
   ): Promise<UserPassageAttempts> {
     const rows = await db
       .insert(userPassageAttemptsTable)
