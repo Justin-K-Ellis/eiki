@@ -33,15 +33,6 @@ const mockOptions = [
   { id: 2, text: "Option B", is_answer_key: false, passage_id: 1 },
 ];
 
-const mockTitles = [
-  { id: 1, title: "Passage One" },
-  { id: 2, title: "Passage Two" },
-];
-
-const mockProgressData = [
-  { passageId: 1, correctlyAnswered: true, totalAttempts: 3 },
-];
-
 // === Tests ===
 
 describe("ItemService", () => {
@@ -51,13 +42,6 @@ describe("ItemService", () => {
 
   describe("getItemList", () => {
     it("throws when the user is not authenticated", async () => {
-      vi.mocked(db.select).mockReturnValueOnce({
-        from: vi.fn().mockReturnValue({
-          where: vi.fn().mockReturnValue({
-            orderBy: vi.fn().mockResolvedValue([]),
-          }),
-        }),
-      } as any);
       vi.mocked(auth).mockResolvedValue({ isAuthenticated: false } as any);
 
       await expect(itemService.getItemList(1)).rejects.toThrow(
@@ -66,21 +50,28 @@ describe("ItemService", () => {
     });
 
     it("returns progress data for attempted passages and defaults for unattempted ones", async () => {
-      vi.mocked(db.select)
-        // First call: fetches passage titles for the unit
-        .mockReturnValueOnce({
-          from: vi.fn().mockReturnValue({
+      vi.mocked(db.select).mockReturnValueOnce({
+        from: vi.fn().mockReturnValue({
+          leftJoin: vi.fn().mockReturnValue({
             where: vi.fn().mockReturnValue({
-              orderBy: vi.fn().mockResolvedValue(mockTitles),
+              orderBy: vi.fn().mockResolvedValue([
+                {
+                  id: 1,
+                  title: "Passage One",
+                  correctlyAnswered: true,
+                  totalAttempts: 3,
+                },
+                {
+                  id: 2,
+                  title: "Passage Two",
+                  correctlyAnswered: null,
+                  totalAttempts: null,
+                },
+              ]),
             }),
           }),
-        } as any)
-        // Second call: fetches this user's progress data
-        .mockReturnValueOnce({
-          from: vi.fn().mockReturnValue({
-            where: vi.fn().mockResolvedValue(mockProgressData),
-          }),
-        } as any);
+        }),
+      } as any);
       vi.mocked(auth).mockResolvedValue({ isAuthenticated: true } as any);
       vi.mocked(currentUser).mockResolvedValue({ id: "user_123" } as any);
 
@@ -103,19 +94,28 @@ describe("ItemService", () => {
     });
 
     it("returns default progress for all passages when the user has no attempts", async () => {
-      vi.mocked(db.select)
-        .mockReturnValueOnce({
-          from: vi.fn().mockReturnValue({
+      vi.mocked(db.select).mockReturnValueOnce({
+        from: vi.fn().mockReturnValue({
+          leftJoin: vi.fn().mockReturnValue({
             where: vi.fn().mockReturnValue({
-              orderBy: vi.fn().mockResolvedValue(mockTitles),
+              orderBy: vi.fn().mockResolvedValue([
+                {
+                  id: 1,
+                  title: "Passage One",
+                  correctlyAnswered: null,
+                  totalAttempts: null,
+                },
+                {
+                  id: 2,
+                  title: "Passage Two",
+                  correctlyAnswered: null,
+                  totalAttempts: null,
+                },
+              ]),
             }),
           }),
-        } as any)
-        .mockReturnValueOnce({
-          from: vi.fn().mockReturnValue({
-            where: vi.fn().mockResolvedValue([]),
-          }),
-        } as any);
+        }),
+      } as any);
       vi.mocked(auth).mockResolvedValue({ isAuthenticated: true } as any);
       vi.mocked(currentUser).mockResolvedValue({ id: "user_123" } as any);
 
