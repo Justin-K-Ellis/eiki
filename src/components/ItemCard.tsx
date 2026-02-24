@@ -43,7 +43,7 @@ export default function ItemCard(props: ItemCardProps) {
   const [answerId, setAnswerId] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [isCorrect, setIsCorrect] = useState<boolean | null>(false);
+  const [isCorrect, setIsCorrect] = useState<boolean>(false);
   const [answerKey] = props.options.filter((option) => option.is_answer_key);
 
   async function handleSubmit(
@@ -129,7 +129,7 @@ export default function ItemCard(props: ItemCardProps) {
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-2">
-            <AnswerFeedback correct={isCorrect!} />
+            <AnswerFeedback correct={isCorrect} />
             <p className="font-bold">
               {props.isAnsLabel}: {answerKey.text}
             </p>

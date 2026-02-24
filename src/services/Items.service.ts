@@ -75,10 +75,7 @@ class ItemService implements ItemsServiceInterface {
     return { passage, options };
   }
 
-  async scoreAnswer(
-    passageId: number,
-    optionId: number,
-  ): Promise<boolean | null> {
+  async scoreAnswer(passageId: number, optionId: number): Promise<boolean> {
     const rows = await db
       .select({ isAnswerKey: optionsTable.is_answer_key })
       .from(optionsTable)
@@ -90,8 +87,7 @@ class ItemService implements ItemsServiceInterface {
       );
 
     if (rows.length === 0) {
-      console.error("Option id does not match passage id.");
-      return null;
+      throw new Error("Option id does not match passage id.");
     }
 
     const isCorrect = rows[0].isAnswerKey;

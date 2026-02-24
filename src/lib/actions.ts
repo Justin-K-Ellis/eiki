@@ -8,19 +8,23 @@ import usersService from "@/services/Users.service";
 export async function scoreAnswer(
   optionId: number,
   passageId: number,
-): Promise<boolean | null> {
+): Promise<boolean> {
   const { isAuthenticated } = await auth();
-  if (!isAuthenticated) return null;
+  if (!isAuthenticated) {
+    throw new Error("User not authenticated.");
+  }
   const user = await currentUser();
-  if (user === null) return null;
+  if (user === null) {
+    throw new Error("User not found.");
+  }
 
   try {
     const isCorrect = await itemService.scoreAnswer(passageId, optionId);
-    await usersService.updatePassageAttempts(user.id, passageId, isCorrect!);
+    await usersService.updatePassageAttempts(user.id, passageId, isCorrect);
     revalidatePath("/");
     return isCorrect;
   } catch (error) {
     console.error(error);
-    return null;
+    throw new Error("Something went wrong when scoring item.");
   }
 }
