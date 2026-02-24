@@ -1,23 +1,26 @@
-import "dotenv/config";
 import { sql } from "drizzle-orm";
+
+import db from "@/db/index";
+import {
+  userPassageAttemptsTable,
+  type UserPassageAttempts,
+} from "@/db/schema";
 import type { UsersServiceInterface } from "@/types/types";
-import db from "../db/index";
-import { userPassageAttemptsTable } from "@/db/schema";
-import { UserPassageAttempts } from "@/db/schema";
 
 class UsersService implements UsersServiceInterface {
   async updatePassageAttempts(
     userId: string,
     passageId: number,
-    correctlyAnswered: boolean
+    correctlyAnswered: boolean,
   ): Promise<UserPassageAttempts> {
+    const now = new Date();
     const rows = await db
       .insert(userPassageAttemptsTable)
       .values({
         user_id: userId,
         passage_id: passageId,
         correctly_answered: correctlyAnswered,
-        last_attempted_at: new Date(),
+        last_attempted_at: now,
         total_attempts: 1,
       })
       .onConflictDoUpdate({
@@ -27,11 +30,15 @@ class UsersService implements UsersServiceInterface {
         ],
         set: {
           correctly_answered: correctlyAnswered,
-          last_attempted_at: new Date(),
+          last_attempted_at: now,
           total_attempts: sql`${userPassageAttemptsTable.total_attempts} + 1`,
         },
       })
       .returning();
+
+    if (rows.length === 0) {
+      throw new Error("No user passages to update.");
+    }
 
     const userPassageAttempts = rows[0];
     return userPassageAttempts;
