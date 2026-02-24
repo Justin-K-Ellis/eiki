@@ -46,7 +46,7 @@ const mockProgressData = [
 
 describe("ItemService", () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    vi.resetAllMocks();
   });
 
   describe("getItemList", () => {
@@ -87,8 +87,18 @@ describe("ItemService", () => {
       const result = await itemService.getItemList(1);
 
       expect(result).toEqual([
-        { id: 1, title: "Passage One", correctlyAnswered: true, totalAttempts: 3 },
-        { id: 2, title: "Passage Two", correctlyAnswered: false, totalAttempts: 0 },
+        {
+          id: 1,
+          title: "Passage One",
+          correctlyAnswered: true,
+          totalAttempts: 3,
+        },
+        {
+          id: 2,
+          title: "Passage Two",
+          correctlyAnswered: false,
+          totalAttempts: 0,
+        },
       ]);
     });
 
@@ -112,8 +122,18 @@ describe("ItemService", () => {
       const result = await itemService.getItemList(1);
 
       expect(result).toEqual([
-        { id: 1, title: "Passage One", correctlyAnswered: false, totalAttempts: 0 },
-        { id: 2, title: "Passage Two", correctlyAnswered: false, totalAttempts: 0 },
+        {
+          id: 1,
+          title: "Passage One",
+          correctlyAnswered: false,
+          totalAttempts: 0,
+        },
+        {
+          id: 2,
+          title: "Passage Two",
+          correctlyAnswered: false,
+          totalAttempts: 0,
+        },
       ]);
     });
   });

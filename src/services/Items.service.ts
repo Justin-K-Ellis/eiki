@@ -29,6 +29,9 @@ class ItemService implements ItemsServiceInterface {
       .orderBy(asc(passagesTable.readability_score));
 
     const user = await currentUser();
+    if (!user) {
+      throw new Error("User not found.");
+    }
 
     // Get all user completion data
     const progressData = await db
@@ -38,7 +41,7 @@ class ItemService implements ItemsServiceInterface {
         passageId: userPassageAttemptsTable.passage_id,
       })
       .from(userPassageAttemptsTable)
-      .where(eq(userPassageAttemptsTable.user_id, user!.id));
+      .where(eq(userPassageAttemptsTable.user_id, user.id));
 
     // Merge title list and user data
     const userItemProgressData: UserItemProgress[] = [];
@@ -73,10 +76,15 @@ class ItemService implements ItemsServiceInterface {
   }
 
   async getItem(id: number): Promise<ItemInterface> {
-    const [passage] = await db
+    const rows = await db
       .select()
       .from(passagesTable)
       .where(eq(passagesTable.id, id));
+
+    if (rows.length === 0) {
+      throw new Error("Passage not found.");
+    }
+    const passage = rows[0];
 
     const options = await db
       .select()
