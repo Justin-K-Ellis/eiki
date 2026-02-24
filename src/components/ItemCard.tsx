@@ -17,6 +17,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "./ui/button";
 
 import LoadingCard from "./LoadingCard";
+import ErrorCard from "./ErrorCard";
 import AnswerFeedback from "./AnswerFeedback";
 import { Option } from "@/db/schema";
 import { scoreAnswer } from "@/lib/actions";
@@ -41,6 +42,7 @@ export default function ItemCard(props: ItemCardProps) {
   const [questionAnswered, setQuestionAnswered] = useState(false);
   const [answerId, setAnswerId] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(false);
   const [answerKey] = props.options.filter((option) => option.is_answer_key);
 
@@ -48,12 +50,25 @@ export default function ItemCard(props: ItemCardProps) {
     event: FormEvent<HTMLFormElement>,
   ): Promise<void> {
     event.preventDefault();
-    setLoading(true);
-    const scoreEvaluation = await scoreAnswer(answerId, props.passageId);
-    setIsCorrect(scoreEvaluation);
-    setLoading(false);
-    setQuestionAnswered(!questionAnswered);
+    try {
+      setLoading(true);
+      const scoreEvaluation = await scoreAnswer(answerId, props.passageId);
+      setIsCorrect(scoreEvaluation);
+      setQuestionAnswered(true);
+    } catch (error) {
+      console.error(error);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   }
+
+  if (error)
+    return (
+      <div className="flex justify-center items-center">
+        <ErrorCard text="Something went wrong when scoring." />
+      </div>
+    );
 
   if (loading)
     return (
