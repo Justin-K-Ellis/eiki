@@ -1,4 +1,3 @@
-import "dotenv/config";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { eq, and, asc } from "drizzle-orm";
 
@@ -7,7 +6,7 @@ import {
   optionsTable,
   userPassageAttemptsTable,
 } from "@/db/schema";
-import db from "../db/index";
+import db from "@/db/index";
 import type {
   ItemInterface,
   ItemsServiceInterface,
@@ -16,6 +15,12 @@ import type {
 
 class ItemService implements ItemsServiceInterface {
   async getItemList(unitIdentifier: number): Promise<UserItemProgress[]> {
+    // Check auth status
+    const { isAuthenticated } = await auth();
+    if (!isAuthenticated) {
+      throw new Error("User not authenticated.");
+    }
+
     // Get all passage ids and titles
     const titles = await db
       .select({ id: passagesTable.id, title: passagesTable.title })
@@ -23,11 +28,6 @@ class ItemService implements ItemsServiceInterface {
       .where(eq(passagesTable.unit, unitIdentifier))
       .orderBy(asc(passagesTable.readability_score));
 
-    // Check auth status
-    const { isAuthenticated } = await auth();
-    if (!isAuthenticated) {
-      throw new Error("User not authenticated.");
-    }
     const user = await currentUser();
 
     // Get all user completion data
