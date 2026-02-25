@@ -120,32 +120,31 @@ export default function ItemCard(props: ItemCardProps) {
       </section>
     );
 
-  if (questionAnswered)
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>{props.title}</CardTitle>
-          <CardDescription>{props.explanationLabel}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col gap-2">
-            <AnswerFeedback correct={isCorrect} />
-            <p className="font-bold">
-              {props.isAnsLabel}: {answerKey.text}
-            </p>
-            <p className="underline">{props.enPassLabel}</p>
-            <p className="text-justify">{props.body}</p>
-            <p className="underline">{props.jaPassLabel}</p>
-            <p className="text-justify">{props.japaneseTranslation}</p>
-          </div>
-        </CardContent>
-        <CardFooter>
-          <CardAction>
-            <Button type="button">
-              <Link href={"/"}>{props.backBtnLabel}</Link>
-            </Button>
-          </CardAction>
-        </CardFooter>
-      </Card>
-    );
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>{props.title}</CardTitle>
+        <CardDescription>{props.explanationLabel}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="flex flex-col gap-2">
+          <AnswerFeedback correct={isCorrect} />
+          <p className="font-bold">
+            {props.isAnsLabel}: {answerKey.text}
+          </p>
+          <p className="underline">{props.enPassLabel}</p>
+          <p className="text-justify">{props.body}</p>
+          <p className="underline">{props.jaPassLabel}</p>
+          <p className="text-justify">{props.japaneseTranslation}</p>
+        </div>
+      </CardContent>
+      <CardFooter>
+        <CardAction>
+          <Button type="button">
+            <Link href={"/"}>{props.backBtnLabel}</Link>
+          </Button>
+        </CardAction>
+      </CardFooter>
+    </Card>
+  );
 }
