@@ -8,9 +8,9 @@ export default function Navbar() {
 
   return (
     <nav className="flex justify-between items-center shadow p-1 md:p-2 mb-4 md:mb-8">
-      <h1 className="font-bold text-3xl md:text-4xl">
-        <Link href={"/"}>{t("title")}</Link>
-      </h1>
+      <Link href={"/"} className="font-bold text-3xl md:text-4xl">
+        {t("title")}
+      </Link>
       <ul className="flex gap-2 md:gap-3 items-center">
         <li>
           <UserButton />

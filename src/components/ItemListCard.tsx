@@ -1,4 +1,5 @@
-import Link from "next/link";
+// import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import {
   Card,
   CardDescription,
@@ -31,9 +32,7 @@ export default function ItemListCard(props: ItemListCardProps) {
         <CardHeader>
           <CardTitle>{props.titleText}</CardTitle>
           <CardDescription>
-            <div className="flex gap-1">
-              <p>{progressMessage()}</p>
-            </div>
+            <div className="flex gap-1">{progressMessage()}</div>
           </CardDescription>
         </CardHeader>
       </Card>

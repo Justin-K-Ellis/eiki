@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 import {
   Card,
@@ -17,6 +17,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "./ui/button";
 
 import LoadingCard from "./LoadingCard";
+import ErrorCard from "./ErrorCard";
 import AnswerFeedback from "./AnswerFeedback";
 import { Option } from "@/db/schema";
 import { scoreAnswer } from "@/lib/actions";
@@ -41,19 +42,33 @@ export default function ItemCard(props: ItemCardProps) {
   const [questionAnswered, setQuestionAnswered] = useState(false);
   const [answerId, setAnswerId] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [isCorrect, setIsCorrect] = useState<boolean | null>(false);
+  const [error, setError] = useState(false);
+  const [isCorrect, setIsCorrect] = useState<boolean>(false);
   const [answerKey] = props.options.filter((option) => option.is_answer_key);
 
   async function handleSubmit(
     event: FormEvent<HTMLFormElement>,
   ): Promise<void> {
     event.preventDefault();
-    setLoading(true);
-    const scoreEvaluation = await scoreAnswer(answerId, props.passageId);
-    setIsCorrect(scoreEvaluation);
-    setLoading(false);
-    setQuestionAnswered(!questionAnswered);
+    try {
+      setLoading(true);
+      const scoreEvaluation = await scoreAnswer(answerId, props.passageId);
+      setIsCorrect(scoreEvaluation);
+      setQuestionAnswered(true);
+    } catch (error) {
+      console.error(error);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   }
+
+  if (error)
+    return (
+      <div className="flex justify-center items-center">
+        <ErrorCard text="Something went wrong when scoring." />
+      </div>
+    );
 
   if (loading)
     return (
@@ -105,32 +120,31 @@ export default function ItemCard(props: ItemCardProps) {
       </section>
     );
 
-  if (questionAnswered)
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>{props.title}</CardTitle>
-          <CardDescription>{props.explanationLabel}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col gap-2">
-            <AnswerFeedback correct={isCorrect!} />
-            <p className="font-bold">
-              {props.isAnsLabel}: {answerKey.text}
-            </p>
-            <p className="underline">{props.enPassLabel}</p>
-            <p className="text-justify">{props.body}</p>
-            <p className="underline">{props.jaPassLabel}</p>
-            <p className="text-justify">{props.japaneseTranslation}</p>
-          </div>
-        </CardContent>
-        <CardFooter>
-          <CardAction>
-            <Button type="button">
-              <Link href={"/"}>{props.backBtnLabel}</Link>
-            </Button>
-          </CardAction>
-        </CardFooter>
-      </Card>
-    );
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>{props.title}</CardTitle>
+        <CardDescription>{props.explanationLabel}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="flex flex-col gap-2">
+          <AnswerFeedback correct={isCorrect} />
+          <p className="font-bold">
+            {props.isAnsLabel}: {answerKey.text}
+          </p>
+          <p className="underline">{props.enPassLabel}</p>
+          <p className="text-justify">{props.body}</p>
+          <p className="underline">{props.jaPassLabel}</p>
+          <p className="text-justify">{props.japaneseTranslation}</p>
+        </div>
+      </CardContent>
+      <CardFooter>
+        <CardAction>
+          <Button type="button">
+            <Link href={"/"}>{props.backBtnLabel}</Link>
+          </Button>
+        </CardAction>
+      </CardFooter>
+    </Card>
+  );
 }

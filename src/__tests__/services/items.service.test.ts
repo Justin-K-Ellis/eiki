@@ -163,16 +163,14 @@ describe("ItemService", () => {
       expect(result).toBe(false);
     });
 
-    it("returns null when the option does not exist", async () => {
+    it("throws when the option does not exist", async () => {
       vi.mocked(db.select).mockReturnValueOnce({
         from: vi.fn().mockReturnValue({
           where: vi.fn().mockResolvedValue([]),
         }),
       } as any);
 
-      const result = await itemService.scoreAnswer(1, 999);
-
-      expect(result).toBeNull();
+      await expect(itemService.scoreAnswer(1, 999)).rejects.toThrow("Option id does not match passage id.");
     });
   });
 

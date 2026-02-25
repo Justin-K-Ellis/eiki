@@ -10,8 +10,10 @@ interface ItemListContainerProps {
 }
 
 export default async function ItemListContainer(props: ItemListContainerProps) {
-  const t = await getTranslations("ItemListContainer");
-  const titleData = await itemService.getItemList(props.unit);
+  const [t, titleData] = await Promise.all([
+    getTranslations("ItemListContainer"),
+    itemService.getItemList(props.unit),
+  ]);
 
   if (titleData.length === 0)
     return (

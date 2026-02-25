@@ -46,7 +46,7 @@ export interface UserItemProgress extends TitleData {
 export interface ItemsServiceInterface {
   getItemList: (unitIdentifier: number) => Promise<UserItemProgress[]>;
   getItem: (id: number) => Promise<ItemInterface>;
-  scoreAnswer: (passageId: number, optionId: number) => Promise<boolean | null>;
+  scoreAnswer: (passageId: number, optionId: number) => Promise<boolean>;
 }
 
 export interface UsersServiceInterface {
