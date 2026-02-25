@@ -1,5 +1,5 @@
 import { Badge } from "./ui/badge";
-import { BadgeCheckIcon, Triangle, Badge as LuicdeBadge } from "lucide-react";
+import { BadgeCheckIcon, Triangle, Badge as LucideBadge } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 interface ProgressBadgeProps {
@@ -18,7 +18,7 @@ export default function ProgressBadge({ progressStatus }: ProgressBadgeProps) {
   const iconDict = {
     done: <BadgeCheckIcon />,
     tryAgain: <Triangle />,
-    notAttempted: <LuicdeBadge />,
+    notAttempted: <LucideBadge />,
   };
 
   return (
