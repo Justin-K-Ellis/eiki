@@ -25,6 +25,6 @@ export async function scoreAnswer(
     return isCorrect;
   } catch (error) {
     console.error(error);
-    throw new Error("Something went wrong when scoring item.");
+    throw error;
   }
 }
