@@ -7,7 +7,19 @@ import {
 } from "@/db/schema";
 import type { UsersServiceInterface } from "@/types/types";
 
+/**
+ * Service for all user progress data access.
+ * Consumed by server actions — never imported by client components.
+ */
 class UsersService implements UsersServiceInterface {
+  /**
+   * Upserts a user's attempt record for a passage. On the first attempt,
+   * inserts a new row with `total_attempts: 1`. On subsequent attempts,
+   * increments `total_attempts` and updates `correctly_answered` and
+   * `last_attempted_at`.
+   *
+   * @throws {Error} If the upsert returns no rows.
+   */
   async updatePassageAttempts(
     userId: string,
     passageId: number,

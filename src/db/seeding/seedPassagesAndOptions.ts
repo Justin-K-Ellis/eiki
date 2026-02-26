@@ -8,6 +8,14 @@ import { passagesTable, optionsTable } from "../schema";
 import type { ItemContent } from "../../types/types";
 import db from "../index";
 
+/**
+ * Seeds the `passages` and `options` tables from `assets/item-content.json`.
+ *
+ * For each item, computes a Flesch-Kincaid readability score and inserts the
+ * passage, its answer key, and its distractors. Uses `onConflictDoNothing` so
+ * the script is safe to re-run — existing passages and their options are
+ * skipped entirely.
+ */
 export default async function seedPassageAndOptions(): Promise<void> {
   const items: ItemContent[] | null = await getItems();
   if (!items) {
@@ -67,7 +75,10 @@ export default async function seedPassageAndOptions(): Promise<void> {
   }
 }
 
-// Helper
+/**
+ * Reads and validates `assets/item-content.json` against `ItemContentSchema`.
+ * Returns the parsed items, or `null` if the file is missing or invalid.
+ */
 async function getItems(): Promise<ItemContent[] | null> {
   try {
     const fileUrl = new URL(

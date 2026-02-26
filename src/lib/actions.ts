@@ -5,6 +5,14 @@ import { revalidatePath } from "next/cache";
 import itemService from "@/services/Items.service";
 import usersService from "@/services/Users.service";
 
+/**
+ * Scores a user's answer for a passage, records the attempt, and revalidates
+ * the home page cache.
+ *
+ * @throws {Error} If the user is not authenticated.
+ * @throws {Error} If the optionId does not belong to the given passageId.
+ */
+
 export async function scoreAnswer(
   passageId: number,
   optionId: number,
