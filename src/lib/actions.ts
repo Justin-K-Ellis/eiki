@@ -6,8 +6,8 @@ import itemService from "@/services/Items.service";
 import usersService from "@/services/Users.service";
 
 export async function scoreAnswer(
-  optionId: number,
   passageId: number,
+  optionId: number,
 ): Promise<boolean> {
   const { isAuthenticated } = await auth();
   if (!isAuthenticated) {

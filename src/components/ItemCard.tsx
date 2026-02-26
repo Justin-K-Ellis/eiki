@@ -52,7 +52,7 @@ export default function ItemCard(props: ItemCardProps) {
     event.preventDefault();
     try {
       setLoading(true);
-      const scoreEvaluation = await scoreAnswer(answerId, props.passageId);
+      const scoreEvaluation = await scoreAnswer(props.passageId, answerId);
       setIsCorrect(scoreEvaluation);
       setQuestionAnswered(true);
     } catch (error) {
