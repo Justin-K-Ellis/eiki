@@ -21,6 +21,7 @@ import ErrorCard from "./ErrorCard";
 import AnswerFeedback from "./AnswerFeedback";
 import { Option } from "@/db/schema";
 import { scoreAnswer } from "@/lib/actions";
+import type { ItemCardTranslations } from "@/types/types";
 
 interface ItemCardProps {
   title: string;
@@ -28,14 +29,7 @@ interface ItemCardProps {
   passageId: number;
   options: Option[];
   japaneseTranslation: string;
-  promptLabel: string;
-  ansBtnLabel: string;
-  isAnsLabel: string;
-  explanationLabel: string;
-  enPassLabel: string;
-  jaPassLabel: string;
-  backBtnLabel: string;
-  scoringNow: string;
+  translations: ItemCardTranslations;
 }
 
 export default function ItemCard(props: ItemCardProps) {
@@ -73,7 +67,7 @@ export default function ItemCard(props: ItemCardProps) {
   if (loading)
     return (
       <div className="flex justify-center items-center">
-        <LoadingCard text={props.scoringNow} />
+        <LoadingCard text={props.translations.scoringNow} />
       </div>
     );
 
@@ -90,7 +84,7 @@ export default function ItemCard(props: ItemCardProps) {
             <p className="text-justify">{props.body}</p>
           </CardContent>
           <CardFooter className="flex flex-col items-start gap-2">
-            <p className="font-bold">{props.promptLabel}</p>
+            <p className="font-bold">{props.translations.promptLabel}</p>
             <form
               onSubmit={handleSubmit}
               className="flex flex-col gap-2 w-full"
@@ -112,7 +106,7 @@ export default function ItemCard(props: ItemCardProps) {
                 ))}
               </RadioGroup>
               <CardAction className="flex justify-center w-full">
-                <Button type="submit">{props.ansBtnLabel}</Button>
+                <Button type="submit">{props.translations.ansBtnLabel}</Button>
               </CardAction>
             </form>
           </CardFooter>
@@ -124,24 +118,24 @@ export default function ItemCard(props: ItemCardProps) {
     <Card>
       <CardHeader>
         <CardTitle>{props.title}</CardTitle>
-        <CardDescription>{props.explanationLabel}</CardDescription>
+        <CardDescription>{props.translations.explanationLabel}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex flex-col gap-2">
           <AnswerFeedback correct={isCorrect} />
           <p className="font-bold">
-            {props.isAnsLabel}: {answerKey.text}
+            {props.translations.isAnsLabel}: {answerKey.text}
           </p>
-          <p className="underline">{props.enPassLabel}</p>
+          <p className="underline">{props.translations.enPassLabel}</p>
           <p className="text-justify">{props.body}</p>
-          <p className="underline">{props.jaPassLabel}</p>
+          <p className="underline">{props.translations.jaPassLabel}</p>
           <p className="text-justify">{props.japaneseTranslation}</p>
         </div>
       </CardContent>
       <CardFooter>
         <CardAction>
           <Button type="button">
-            <Link href={"/"}>{props.backBtnLabel}</Link>
+            <Link href={"/"}>{props.translations.backBtnLabel}</Link>
           </Button>
         </CardAction>
       </CardFooter>

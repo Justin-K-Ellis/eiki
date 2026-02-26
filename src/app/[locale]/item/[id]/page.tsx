@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import itemService from "@/services/Items.service";
 import ItemCard from "@/components/ItemCard";
-import { ItemInterface } from "@/types/types";
+import type { ItemInterface, ItemCardTranslations } from "@/types/types";
 
 export default async function AnItem({
   params,
@@ -18,6 +18,16 @@ export default async function AnItem({
     notFound();
   }
   const t = await getTranslations("ItemCard");
+  const itemCardTranslations: ItemCardTranslations = {
+    promptLabel: t("questionPrompt"),
+    explanationLabel: t("explanation"),
+    ansBtnLabel: t("answerBtn"),
+    isAnsLabel: t("isAnswer"),
+    enPassLabel: t("enPassageMarker"),
+    jaPassLabel: t("jaPassageMarker"),
+    backBtnLabel: t("backBtn"),
+    scoringNow: t("scoringNow"),
+  };
 
   return (
     <div>
@@ -27,14 +37,7 @@ export default async function AnItem({
         passageId={item.passage.id}
         options={item.options}
         japaneseTranslation={item.passage.ja_translation}
-        promptLabel={t("questionPrompt")}
-        explanationLabel={t("explanation")}
-        ansBtnLabel={t("answerBtn")}
-        isAnsLabel={t("isAnswer")}
-        enPassLabel={t("enPassageMarker")}
-        jaPassLabel={t("jaPassageMarker")}
-        backBtnLabel={t("backBtn")}
-        scoringNow={t("scoringNow")}
+        translations={itemCardTranslations}
       />
     </div>
   );
