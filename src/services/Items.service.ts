@@ -13,7 +13,18 @@ import type {
   UserItemProgress,
 } from "@/types/types";
 
+/**
+ * Service for all item (passage + option) data access.
+ * Consumed by server components and server actions — never imported by client components.
+ */
 class ItemService implements ItemsServiceInterface {
+  /**
+   * Returns all passages for a given unit along with the current user's
+   * progress on each. Unattempted passages default to `correctlyAnswered: false`
+   * and `totalAttempts: 0`.
+   *
+   * @throws {Error} If the user is not authenticated.
+   */
   async getItemList(unitIdentifier: number): Promise<UserItemProgress[]> {
     // Check auth status
     const { isAuthenticated } = await auth();
@@ -55,6 +66,11 @@ class ItemService implements ItemsServiceInterface {
     return results;
   }
 
+  /**
+   * Returns a passage and its options by passage ID.
+   *
+   * @throws {Error} If no passage with the given ID exists.
+   */
   async getItem(id: number): Promise<ItemInterface> {
     const rows = await db
       .select()
@@ -75,6 +91,11 @@ class ItemService implements ItemsServiceInterface {
     return { passage, options };
   }
 
+  /**
+   * Returns whether the given option is the answer key for the given passage.
+   *
+   * @throws {Error} If the optionId does not belong to the passageId.
+   */
   async scoreAnswer(passageId: number, optionId: number): Promise<boolean> {
     const rows = await db
       .select({ isAnswerKey: optionsTable.is_answer_key })

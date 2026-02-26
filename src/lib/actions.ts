@@ -5,9 +5,17 @@ import { revalidatePath } from "next/cache";
 import itemService from "@/services/Items.service";
 import usersService from "@/services/Users.service";
 
+/**
+ * Scores a user's answer for a passage, records the attempt, and revalidates
+ * the home page cache.
+ *
+ * @throws {Error} If the user is not authenticated.
+ * @throws {Error} If the optionId does not belong to the given passageId.
+ */
+
 export async function scoreAnswer(
-  optionId: number,
   passageId: number,
+  optionId: number,
 ): Promise<boolean> {
   const { isAuthenticated } = await auth();
   if (!isAuthenticated) {
@@ -25,6 +33,6 @@ export async function scoreAnswer(
     return isCorrect;
   } catch (error) {
     console.error(error);
-    throw new Error("Something went wrong when scoring item.");
+    throw error;
   }
 }
