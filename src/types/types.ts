@@ -18,6 +18,17 @@ export const ItemContentSchema = z.object({
 });
 
 // Data types
+export interface ItemCardTranslations {
+  promptLabel: string;
+  explanationLabel: string;
+  ansBtnLabel: string;
+  isAnsLabel: string;
+  enPassLabel: string;
+  jaPassLabel: string;
+  backBtnLabel: string;
+  scoringNow: string;
+}
+
 export type ItemContent = z.infer<typeof ItemContentSchema>;
 
 export interface ItemInterface {
