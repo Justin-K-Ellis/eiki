@@ -1,9 +1,10 @@
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import itemService from "@/services/Items.service";
 import ItemCard from "@/components/ItemCard";
+import ItemLoadingCard from "@/components/ItemLoadingCard";
 import type { ItemInterface, ItemCardTranslations } from "@/types/types";
-import { Suspense } from "react";
 
 export default async function AnItem({
   params,
@@ -32,7 +33,7 @@ export default async function AnItem({
 
   return (
     <div>
-      <Suspense fallback={"Loading..."}>
+      <Suspense fallback={<ItemLoadingCard />}>
         <ItemCard item={item} translations={itemCardTranslations} />
       </Suspense>
     </div>
