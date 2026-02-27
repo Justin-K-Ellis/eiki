@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, use } from "react";
 import { Link } from "@/i18n/navigation";
 
 import {
@@ -19,26 +19,23 @@ import { Button } from "./ui/button";
 import LoadingCard from "./LoadingCard";
 import ErrorCard from "./ErrorCard";
 import AnswerFeedback from "./AnswerFeedback";
-import { Option } from "@/db/schema";
 import { scoreAnswer } from "@/lib/actions";
-import type { ItemCardTranslations } from "@/types/types";
+import type { ItemInterface, ItemCardTranslations } from "@/types/types";
 
 interface ItemCardProps {
-  title: string;
-  body: string;
-  passageId: number;
-  options: Option[];
-  japaneseTranslation: string;
+  item: Promise<ItemInterface>;
   translations: ItemCardTranslations;
 }
 
 export default function ItemCard(props: ItemCardProps) {
+  const item = use(props.item);
+
   const [questionAnswered, setQuestionAnswered] = useState(false);
   const [answerId, setAnswerId] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean>(false);
-  const [answerKey] = props.options.filter((option) => option.is_answer_key);
+  const [answerKey] = item.options.filter((option) => option.is_answer_key);
 
   async function handleSubmit(
     event: FormEvent<HTMLFormElement>,
@@ -46,7 +43,7 @@ export default function ItemCard(props: ItemCardProps) {
     event.preventDefault();
     try {
       setLoading(true);
-      const scoreEvaluation = await scoreAnswer(props.passageId, answerId);
+      const scoreEvaluation = await scoreAnswer(item.passage.id, answerId);
       setIsCorrect(scoreEvaluation);
       setQuestionAnswered(true);
     } catch (error) {
@@ -77,11 +74,11 @@ export default function ItemCard(props: ItemCardProps) {
         <Card>
           <CardHeader>
             <CardTitle>
-              <h1>{props.title}</h1>
+              <h1>{item.passage.title}</h1>
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-justify">{props.body}</p>
+            <p className="text-justify">{item.passage.body}</p>
           </CardContent>
           <CardFooter className="flex flex-col items-start gap-2">
             <p className="font-bold">{props.translations.promptLabel}</p>
@@ -95,7 +92,7 @@ export default function ItemCard(props: ItemCardProps) {
                 name="option-id"
                 onValueChange={(value) => setAnswerId(parseInt(value))}
               >
-                {props.options.map((option, index) => (
+                {item.options.map((option, index) => (
                   <div key={option.id} className="flex items-center space-x-2">
                     <RadioGroupItem
                       value={option.id.toString()}
@@ -117,7 +114,7 @@ export default function ItemCard(props: ItemCardProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{props.title}</CardTitle>
+        <CardTitle>{item.passage.title}</CardTitle>
         <CardDescription>{props.translations.explanationLabel}</CardDescription>
       </CardHeader>
       <CardContent>
@@ -127,9 +124,9 @@ export default function ItemCard(props: ItemCardProps) {
             {props.translations.isAnsLabel}: {answerKey.text}
           </p>
           <p className="underline">{props.translations.enPassLabel}</p>
-          <p className="text-justify">{props.body}</p>
+          <p className="text-justify">{item.passage.body}</p>
           <p className="underline">{props.translations.jaPassLabel}</p>
-          <p className="text-justify">{props.japaneseTranslation}</p>
+          <p className="text-justify">{item.passage.ja_translation}</p>
         </div>
       </CardContent>
       <CardFooter>

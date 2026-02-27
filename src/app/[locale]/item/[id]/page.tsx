@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import itemService from "@/services/Items.service";
 import ItemCard from "@/components/ItemCard";
 import type { ItemInterface, ItemCardTranslations } from "@/types/types";
+import { Suspense } from "react";
 
 export default async function AnItem({
   params,
@@ -10,9 +11,9 @@ export default async function AnItem({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  let item: ItemInterface;
+  let item: Promise<ItemInterface>;
   try {
-    item = await itemService.getItem(parseInt(id));
+    item = itemService.getItem(parseInt(id));
   } catch (error) {
     console.error(error);
     notFound();
@@ -31,14 +32,9 @@ export default async function AnItem({
 
   return (
     <div>
-      <ItemCard
-        title={item.passage.title}
-        body={item.passage.body}
-        passageId={item.passage.id}
-        options={item.options}
-        japaneseTranslation={item.passage.ja_translation}
-        translations={itemCardTranslations}
-      />
+      <Suspense fallback={"Loading..."}>
+        <ItemCard item={item} translations={itemCardTranslations} />
+      </Suspense>
     </div>
   );
 }
