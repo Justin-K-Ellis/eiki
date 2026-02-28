@@ -1,35 +1,17 @@
 import { useTranslations } from "next-intl";
 import ItemListContainer from "@/components/ItemListContainer";
 import type { LevelData } from "@/types/types";
+import { cefrEnum } from "@/db/schema";
 
 export default function Home() {
   const t = useTranslations("Home");
-  const levelData: LevelData[] = [
-    {
-      level: "A1",
-      unit: 1,
-    },
-    {
-      level: "A2",
-      unit: 2,
-    },
-    {
-      level: "B1",
-      unit: 3,
-    },
-    {
-      level: "B2",
-      unit: 4,
-    },
-    {
-      level: "C1",
-      unit: 5,
-    },
-    {
-      level: "C2",
-      unit: 6,
-    },
-  ];
+
+  const levelData: LevelData[] = cefrEnum.enumValues.map((level, index) => {
+    return {
+      level: level,
+      unit: index + 1,
+    };
+  });
 
   return (
     <>

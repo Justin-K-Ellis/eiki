@@ -4,7 +4,7 @@ import { getTranslations } from "next-intl/server";
 import itemService from "@/services/Items.service";
 import ItemCard from "@/components/ItemCard";
 import ItemLoadingCard from "@/components/ItemLoadingCard";
-import type { ItemInterface, ItemCardTranslations } from "@/types/types";
+import type { ItemCardTranslations } from "@/types/types";
 
 export default async function AnItem({
   params,
@@ -12,13 +12,13 @@ export default async function AnItem({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  let item: Promise<ItemInterface>;
-  try {
-    item = itemService.getItem(parseInt(id));
-  } catch (error) {
-    console.error(error);
+  const itemId: number = parseInt(id);
+  if (isNaN(itemId)) {
     notFound();
   }
+
+  const item = itemService.getItem(itemId).catch(() => notFound());
+
   const t = await getTranslations("ItemCard");
   const itemCardTranslations: ItemCardTranslations = {
     promptLabel: t("questionPrompt"),
