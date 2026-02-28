@@ -4,7 +4,7 @@ import { getTranslations } from "next-intl/server";
 import itemService from "@/services/Items.service";
 import ItemCard from "@/components/ItemCard";
 import ItemLoadingCard from "@/components/ItemLoadingCard";
-import type { ItemInterface, ItemCardTranslations } from "@/types/types";
+import type { ItemCardTranslations } from "@/types/types";
 
 export default async function AnItem({
   params,
