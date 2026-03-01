@@ -1,10 +1,9 @@
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
+import { CEFRLevel } from "@/db/schema";
+import castLocale from "@/lib/castLocale";
 import ItemHeader from "./ItemHeader";
 import ItemListCard from "./ItemListCard";
-import { CEFRLevel } from "@/db/schema";
 import itemService from "@/services/Items.service";
-import { getLocale } from "next-intl/server";
-import castLocale from "@/lib/castLocale";
 
 interface ItemListContainerProps {
   cefrLevel: CEFRLevel;
