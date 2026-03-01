@@ -27,6 +27,7 @@ export interface ItemCardTranslations {
   jaPassLabel: string;
   backBtnLabel: string;
   scoringNow: string;
+  errorMsg: string;
 }
 
 export type ItemContent = z.infer<typeof ItemContentSchema>;

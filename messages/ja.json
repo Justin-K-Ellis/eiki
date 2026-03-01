@@ -35,7 +35,8 @@
     "enPassageMarker": "英文",
     "jaPassageMarker": "和訳",
     "backBtn": "戻る",
-    "scoringNow": "採点中"
+    "scoringNow": "採点中",
+    "errorMsg": "採点中に問題が発生しました。"
   },
   "ItemListContainer": {
     "coming-soon": "アイテムは近日公開予定"

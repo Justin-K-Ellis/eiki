@@ -57,7 +57,7 @@ export default function ItemCard(props: ItemCardProps) {
   if (error)
     return (
       <div className="flex justify-center items-center">
-        <ErrorCard text="Something went wrong when scoring." />
+        <ErrorCard text={props.translations.errorMsg} />
       </div>
     );
 

@@ -29,6 +29,7 @@ export default async function AnItem({
     jaPassLabel: t("jaPassageMarker"),
     backBtnLabel: t("backBtn"),
     scoringNow: t("scoringNow"),
+    errorMsg: t("errorMsg"),
   };
 
   return (

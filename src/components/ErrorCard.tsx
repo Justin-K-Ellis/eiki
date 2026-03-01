@@ -17,7 +17,9 @@ export default function ErrorCard({ text }: { text: string }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-red-500">{title}</CardTitle>
+        <CardTitle className="text-red-500 text-center text-2xl font-bold">
+          {title}
+        </CardTitle>
         <CardDescription className="text-red-800">
           {description}
         </CardDescription>

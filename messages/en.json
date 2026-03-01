@@ -35,7 +35,8 @@
     "enPassageMarker": "English Passage",
     "jaPassageMarker": "Japanese Passage",
     "backBtn": "Back",
-    "scoringNow": "Scoring..."
+    "scoringNow": "Scoring...",
+    "errorMsg": "Something went wrong when scoring."
   },
   "ItemListContainer": {
     "coming-soon": "Items coming soon"
