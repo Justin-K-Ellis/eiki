@@ -9,6 +9,11 @@
     "correctMsg": "Correct!",
     "incorrectMsg": "Incorrect"
   },
+  "ErrorCard": {
+    "title": "Uh-oh",
+    "description": "Looks like something went wrong.",
+    "footer": "Please try again later."
+  },
   "Footer": {
     "name": "Justin Klitgaard"
   },

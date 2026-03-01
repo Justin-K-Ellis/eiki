@@ -9,6 +9,11 @@
     "correctMsg": "正解！",
     "incorrectMsg": "不正解"
   },
+  "ErrorCard": {
+    "title": "おっと",
+    "description": "エラーが発生しました。",
+    "footer": "後ほど再度お試しください。"
+  },
   "Footer": {
     "name": "クリトガード・ジャスティン"
   },
