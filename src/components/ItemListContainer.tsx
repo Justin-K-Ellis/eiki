@@ -3,6 +3,8 @@ import ItemHeader from "./ItemHeader";
 import ItemListCard from "./ItemListCard";
 import { CEFRLevel } from "@/db/schema";
 import itemService from "@/services/Items.service";
+import { getLocale } from "next-intl/server";
+import castLocale from "@/lib/castLocale";
 
 interface ItemListContainerProps {
   cefrLevel: CEFRLevel;
@@ -14,18 +16,19 @@ export default async function ItemListContainer(props: ItemListContainerProps) {
     getTranslations("ItemListContainer"),
     itemService.getItemList(props.unit),
   ]);
+  const locale = castLocale(await getLocale());
 
   if (titleData.length === 0)
     return (
       <>
-        <ItemHeader text={props.cefrLevel} />
+        <ItemHeader cefrLevel={props.cefrLevel} locale={locale} />
         <p>{t("coming-soon")}</p>
       </>
     );
 
   return (
     <section className="mb-4 md:mb-6">
-      <ItemHeader text={props.cefrLevel} />
+      <ItemHeader cefrLevel={props.cefrLevel} locale={locale} />
       <ul className="list-none flex flex-col gap-2">
         {titleData.map((data) => (
           <li key={data.id}>

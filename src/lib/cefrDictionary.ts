@@ -15,6 +15,6 @@ const cefrDictionary = {
     C1: "熟達（下）",
     C2: "熟達（上）",
   },
-};
+} as const;
 
 export default cefrDictionary;
