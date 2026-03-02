@@ -15,7 +15,6 @@ export default function ItemHeader({ cefrLevel, locale }: ItemHeaderProps) {
       <h2 className="font-bold text-3xl md:text-4xl mb-2">
         {cefrLevel}: {cefrDescription}
       </h2>
-      <hr />
     </div>
   );
 }
