@@ -1,18 +1,30 @@
+import { useTranslations } from "next-intl";
 import HomePageCard from "@/components/HomePageCard";
 
 export default function Home() {
+  const r = useTranslations("HomePageCardReading");
+  const v = useTranslations("HomePageCardVocab");
+
+  const rTitle = r("title");
+  const rDescription = r("description");
+  const rContent = r("content");
+
+  const vTitle = v("title");
+  const vDescription = v("description");
+  const vContent = v("content");
+
   return (
     <section className="flex flex-col md:flex-row gap-4">
       <HomePageCard
-        title="Reading"
-        description="Short passages"
-        content="Graded reading passages from CEFR level A1 to C2."
+        title={rTitle}
+        description={rDescription}
+        content={rContent}
         link="/reading"
       />
       <HomePageCard
-        title="Vocab Practice"
-        description="Practice makes perfect"
-        content="Perfect your vocab knowledge with spaced repetition."
+        title={vTitle}
+        description={vDescription}
+        content={vContent}
         link="/vocab"
       />
     </section>

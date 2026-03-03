@@ -30,14 +30,12 @@
   "HomePageCardReading": {
     "title": "リーディング",
     "description": "短い読み物",
-    "content": "CEFRレベルA1からC2までの段階別リーディング教材。",
-    "link": "/reading"
+    "content": "CEFRレベルA1からC2までの段階別リーディング教材。"
   },
   "HomePageCardVocab": {
     "title": "語彙練習",
     "description": "習うより慣れろ",
-    "content": "間隔反復学習で語彙力を磨こう。",
-    "link": "/vocab"
+    "content": "間隔反復学習で語彙力を磨こう。"
   },
   "ItemCard": {
     "questionPrompt": "本文の内容を最も表すものを一つ選んでください。",

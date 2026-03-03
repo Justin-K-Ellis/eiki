@@ -17,7 +17,7 @@ interface HPCardProps {
 
 export default function HomePageCard(props: HPCardProps) {
   return (
-    <Card>
+    <Card className="md:w-48/100">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl">{props.title}</CardTitle>
         <CardDescription>{props.description}</CardDescription>
