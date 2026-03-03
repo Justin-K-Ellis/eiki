@@ -27,15 +27,6 @@ class ItemService implements ItemsServiceInterface {
    * @throws {Error} If the user is not authenticated.
    */
 
-  async getNumOfPassagesByCEFR(level: CEFRLevel): Promise<number> {
-    const count = await db.$count(
-      passagesTable,
-      eq(passagesTable.cefr_level, level),
-    );
-
-    return count;
-  }
-
   async getItemList(unitIdentifier: number): Promise<UserItemProgress[]> {
     // Check auth status
     const { isAuthenticated } = await auth();
@@ -124,6 +115,15 @@ class ItemService implements ItemsServiceInterface {
 
     const isCorrect = rows[0].isAnswerKey;
     return isCorrect;
+  }
+
+  async getNumOfPassagesByCEFR(level: CEFRLevel): Promise<number> {
+    const count = await db.$count(
+      passagesTable,
+      eq(passagesTable.cefr_level, level),
+    );
+
+    return count;
   }
 }
 
