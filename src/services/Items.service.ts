@@ -32,7 +32,6 @@ class ItemService implements ItemsServiceInterface {
       passagesTable,
       eq(passagesTable.cefr_level, level),
     );
-    console.log("count:", count);
 
     return count;
   }
