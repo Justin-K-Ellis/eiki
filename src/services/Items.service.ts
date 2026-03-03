@@ -5,6 +5,7 @@ import {
   passagesTable,
   optionsTable,
   userPassageAttemptsTable,
+  CEFRLevel,
 } from "@/db/schema";
 import db from "@/db/index";
 import type {
@@ -25,6 +26,17 @@ class ItemService implements ItemsServiceInterface {
    *
    * @throws {Error} If the user is not authenticated.
    */
+
+  async getNumOfPassagesByCEFR(level: CEFRLevel): Promise<number> {
+    const count = await db.$count(
+      passagesTable,
+      eq(passagesTable.cefr_level, level),
+    );
+    console.log("count:", count);
+
+    return count;
+  }
+
   async getItemList(unitIdentifier: number): Promise<UserItemProgress[]> {
     // Check auth status
     const { isAuthenticated } = await auth();
