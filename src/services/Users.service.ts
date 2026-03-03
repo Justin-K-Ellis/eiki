@@ -1,7 +1,9 @@
-import { sql } from "drizzle-orm";
+import { sql, eq, and, count } from "drizzle-orm";
 
 import db from "@/db/index";
 import {
+  CEFRLevel,
+  passagesTable,
   userPassageAttemptsTable,
   type UserPassageAttempts,
 } from "@/db/schema";
@@ -54,6 +56,27 @@ class UsersService implements UsersServiceInterface {
 
     const userPassageAttempts = rows[0];
     return userPassageAttempts;
+  }
+
+  async getNumOfCompletedPassagesByCEFR(
+    userId: string,
+    level: CEFRLevel,
+  ): Promise<number> {
+    const rows = await db
+      .select({ count: count() })
+      .from(userPassageAttemptsTable)
+      .innerJoin(
+        passagesTable,
+        eq(userPassageAttemptsTable.passage_id, passagesTable.id),
+      )
+      .where(
+        and(
+          eq(userPassageAttemptsTable.correctly_answered, true),
+          eq(passagesTable.cefr_level, level),
+          eq(userPassageAttemptsTable.user_id, userId),
+        ),
+      );
+    return rows[0].count;
   }
 }
 
