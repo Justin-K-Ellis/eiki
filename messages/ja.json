@@ -27,6 +27,16 @@
     "sign-in": "ログイン",
     "sign-up": "新規登録"
   },
+  "HomePageCardReading": {
+    "title": "リーディング",
+    "description": "短い読み物",
+    "content": "CEFRレベルA1からC2までの段階別リーディング教材。"
+  },
+  "HomePageCardVocab": {
+    "title": "語彙練習",
+    "description": "習うより慣れろ",
+    "content": "間隔反復学習で語彙力を磨こう。"
+  },
   "ItemCard": {
     "questionPrompt": "本文の内容を最も表すものを一つ選んでください。",
     "answerBtn": "回答する",

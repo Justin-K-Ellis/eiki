@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { cleanup } from "@testing-library/react";
 
 import { NextIntlClientProvider } from "next-intl";
-import Home from "@/app/[locale]/page";
+import Home from "@/app/[locale]/reading/page";
 import enMessages from "../../../messages/en.json";
 import jaMessages from "../../../messages/ja.json";
 
@@ -21,7 +21,7 @@ describe("the Home page", () => {
       render(
         <NextIntlClientProvider locale="en" messages={enMessages}>
           <Home />
-        </NextIntlClientProvider>
+        </NextIntlClientProvider>,
       );
       const text = "Welcome to the home page";
       const title = screen.getByRole("heading", { level: 1 }).textContent;
@@ -34,7 +34,7 @@ describe("the Home page", () => {
       render(
         <NextIntlClientProvider locale="ja" messages={jaMessages}>
           <Home />
-        </NextIntlClientProvider>
+        </NextIntlClientProvider>,
       );
       const text = "ホームページへようこそ";
       const title = screen.getByRole("heading", { level: 1 }).textContent;

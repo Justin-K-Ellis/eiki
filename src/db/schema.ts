@@ -90,9 +90,8 @@ export type Passage = InferSelectModel<typeof passagesTable>;
 export type Option = InferSelectModel<typeof optionsTable>;
 export type Vocab = InferSelectModel<typeof vocabTable>;
 export type Unit = InferSelectModel<typeof unitsTable>;
+export type UnitDTO = typeof unitsTable.$inferInsert;
 export type CEFRLevel = (typeof cefrEnum.enumValues)[number];
 export type UserPassageAttempts = InferSelectModel<
   typeof userPassageAttemptsTable
 >;
-
-export type UnitDTO = Omit<Unit, "id">;

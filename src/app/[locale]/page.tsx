@@ -1,28 +1,32 @@
 import { useTranslations } from "next-intl";
-import ItemListContainer from "@/components/ItemListContainer";
-import type { LevelData } from "@/types/types";
-import { cefrEnum } from "@/db/schema";
+import HomePageCard from "@/components/HomePageCard";
 
 export default function Home() {
-  const t = useTranslations("Home");
+  const r = useTranslations("HomePageCardReading");
+  const v = useTranslations("HomePageCardVocab");
 
-  const levelData: LevelData[] = cefrEnum.enumValues.map((level, index) => {
-    return {
-      level: level,
-      unit: index + 1,
-    };
-  });
+  const rTitle = r("title");
+  const rDescription = r("description");
+  const rContent = r("content");
+
+  const vTitle = v("title");
+  const vDescription = v("description");
+  const vContent = v("content");
 
   return (
-    <>
-      <h1>{t("title")}</h1>
-      {levelData.map((data) => (
-        <ItemListContainer
-          cefrLevel={data.level}
-          unit={data.unit}
-          key={data.unit}
-        />
-      ))}
-    </>
+    <section className="flex flex-col md:flex-row gap-4">
+      <HomePageCard
+        title={rTitle}
+        description={rDescription}
+        content={rContent}
+        link="/reading"
+      />
+      <HomePageCard
+        title={vTitle}
+        description={vDescription}
+        content={vContent}
+        link="/vocab"
+      />
+    </section>
   );
 }
