@@ -63,6 +63,10 @@ export interface ItemsServiceInterface {
 }
 
 export interface UsersServiceInterface {
+  getNumOfCompletedPassagesByCEFR: (
+    userId: string,
+    level: CEFRLevel,
+  ) => Promise<number>;
   updatePassageAttempts: (
     userId: string,
     passageId: number,
