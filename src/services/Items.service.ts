@@ -1,5 +1,5 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
-import { eq, and, asc } from "drizzle-orm";
+import { eq, and, asc, count } from "drizzle-orm";
 
 import {
   passagesTable,
@@ -118,12 +118,12 @@ class ItemService implements ItemsServiceInterface {
   }
 
   async getNumOfPassagesByCEFR(level: CEFRLevel): Promise<number> {
-    const count = await db.$count(
-      passagesTable,
-      eq(passagesTable.cefr_level, level),
-    );
+    const rows = await db
+      .select({ count: count() })
+      .from(passagesTable)
+      .where(eq(passagesTable.cefr_level, level));
 
-    return count;
+    return rows[0].count;
   }
 }
 
