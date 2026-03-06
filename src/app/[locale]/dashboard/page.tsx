@@ -7,6 +7,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Progress } from "@/components/ui/progress";
+import { UserButton } from "@clerk/nextjs";
 
 import { CEFRLevel } from "@/db/schema";
 import itemService from "@/services/Items.service";
@@ -41,7 +42,15 @@ export default async function Dashboard() {
 
   return (
     <div>
-      <h1 className="text-3xl md:text-4xl font-bold">{name}&apos; Dashboard</h1>
+      <div id="account" className="flex justify-around">
+        <h1 className="text-3xl md:text-4xl font-bold">
+          {name}&apos; Dashboard
+        </h1>
+        <div className="flex flex-col md:flex-row gap-1 md:gap-2 items-center justify-center w-1/3">
+          <p className="text-sm text-zinc-600 text-center">Manage Account</p>
+          <UserButton />
+        </div>
+      </div>
       <div className="shadow p-4 my-4">
         <p className="text-2xl md:text-3xl">
           Total lessons completed: {totalComplete}
