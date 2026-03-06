@@ -1,10 +1,11 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
-import { eq, and, asc } from "drizzle-orm";
+import { eq, and, asc, count } from "drizzle-orm";
 
 import {
   passagesTable,
   optionsTable,
   userPassageAttemptsTable,
+  CEFRLevel,
 } from "@/db/schema";
 import db from "@/db/index";
 import type {
@@ -25,6 +26,7 @@ class ItemService implements ItemsServiceInterface {
    *
    * @throws {Error} If the user is not authenticated.
    */
+
   async getItemList(unitIdentifier: number): Promise<UserItemProgress[]> {
     // Check auth status
     const { isAuthenticated } = await auth();
@@ -113,6 +115,15 @@ class ItemService implements ItemsServiceInterface {
 
     const isCorrect = rows[0].isAnswerKey;
     return isCorrect;
+  }
+
+  async getNumOfPassagesByCEFR(level: CEFRLevel): Promise<number> {
+    const rows = await db
+      .select({ count: count() })
+      .from(passagesTable)
+      .where(eq(passagesTable.cefr_level, level));
+
+    return rows[0].count;
   }
 }
 

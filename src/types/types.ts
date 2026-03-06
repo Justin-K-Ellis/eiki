@@ -56,12 +56,17 @@ export interface UserItemProgress extends TitleData {
 
 // Class interfaces
 export interface ItemsServiceInterface {
+  getNumOfPassagesByCEFR: (level: CEFRLevel) => Promise<number>;
   getItemList: (unitIdentifier: number) => Promise<UserItemProgress[]>;
   getItem: (id: number) => Promise<ItemInterface>;
   scoreAnswer: (passageId: number, optionId: number) => Promise<boolean>;
 }
 
 export interface UsersServiceInterface {
+  getNumOfCompletedPassagesByCEFR: (
+    userId: string,
+    level: CEFRLevel,
+  ) => Promise<number>;
   updatePassageAttempts: (
     userId: string,
     passageId: number,
