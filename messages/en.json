@@ -21,7 +21,8 @@
     "level": "Level",
     "complete": "Complete",
     "total": "Total",
-    "progress": "Progress"
+    "progress": "Progress",
+    "userNotFound": "User not found."
   },
   "Footer": {
     "name": "Justin Klitgaard"

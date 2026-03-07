@@ -21,7 +21,8 @@
     "level": "レベル",
     "complete": "完成",
     "total": "トータル",
-    "progress": "進捗"
+    "progress": "進捗",
+    "userNotFound": "ユーザー見つけられません。"
   },
   "Footer": {
     "name": "クリトガード・ジャスティン"

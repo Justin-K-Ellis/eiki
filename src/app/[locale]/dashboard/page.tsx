@@ -11,16 +11,21 @@ import { UserButton } from "@clerk/nextjs";
 import { getTranslations } from "next-intl/server";
 
 import { CEFRLevel, cefrEnum } from "@/db/schema";
+import { currentUser } from "@clerk/nextjs/server";
+import ErrorCard from "@/components/ErrorCard";
+import getRoundedNum from "@/lib/getRoundedNum";
 import itemService from "@/services/Items.service";
 import usersService from "@/services/Users.service";
-import { currentUser } from "@clerk/nextjs/server";
-import getRoundedNum from "@/lib/getRoundedNum";
 
 export default async function Dashboard() {
+  // internationalization init
+  const t = await getTranslations("Dashboard");
+  const userNotFound = t("userNotFound");
+
   // User stuff
   const user = await currentUser();
   if (!user) {
-    return <p>User not found!</p>;
+    return <ErrorCard text={userNotFound} />;
   }
   const userName =
     user.firstName ??
@@ -28,8 +33,7 @@ export default async function Dashboard() {
     user.emailAddresses[0].emailAddress ??
     "User";
 
-  // internationalization stuff
-  const t = await getTranslations("Dashboard");
+  // more internationalization stuff
   const titleMsg = t("title", { name: userName });
   const manageAccountMsg = t("manageAccount");
   const summaryTitleMsg = t("summaryTitle");
