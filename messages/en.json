@@ -14,6 +14,15 @@
     "description": "Looks like something went wrong.",
     "footer": "Please try again later."
   },
+  "Dashboard": {
+    "title": "{name}'s Dashboard",
+    "manageAccount": "Manage Account",
+    "summaryTitle": "Total lessons completed: ",
+    "level": "Level",
+    "complete": "Complete",
+    "total": "Total",
+    "progress": "Progress"
+  },
   "Footer": {
     "name": "Justin Klitgaard"
   },
@@ -54,7 +63,8 @@
   "Navbar": {
     "title": "Eiki",
     "login": "Login",
-    "about": "About"
+    "about": "About",
+    "dashboard": "Dashboard"
   },
   "ProgressBadges": {
     "done": "Done",
