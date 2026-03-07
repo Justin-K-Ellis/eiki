@@ -14,6 +14,16 @@
     "description": "エラーが発生しました。",
     "footer": "後ほど再度お試しください。"
   },
+  "Dashboard": {
+    "title": "{name}のダッシュボード",
+    "manageAccount": "アカウント管理",
+    "summaryTitle": "完成したレーソン数：",
+    "level": "レベル",
+    "complete": "完成",
+    "total": "トータル",
+    "progress": "進捗",
+    "userNotFound": "ユーザー見つけられません。"
+  },
   "Footer": {
     "name": "クリトガード・ジャスティン"
   },
@@ -54,7 +64,8 @@
   "Navbar": {
     "title": "英記",
     "login": "ログイン",
-    "about": "英記について"
+    "about": "英記とは？",
+    "dashboard": "ダッシュボード"
   },
   "ProgressBadges": {
     "done": "完成",

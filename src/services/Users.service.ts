@@ -2,12 +2,11 @@ import { sql, eq, and, count } from "drizzle-orm";
 
 import db from "@/db/index";
 import {
-  CEFRLevel,
   passagesTable,
   userPassageAttemptsTable,
   type UserPassageAttempts,
 } from "@/db/schema";
-import type { UsersServiceInterface } from "@/types/types";
+import { UsersServiceInterface, CEFRLevelCountMap } from "@/types/types";
 
 /**
  * Service for all user progress data access.
@@ -58,25 +57,30 @@ class UsersService implements UsersServiceInterface {
     return userPassageAttempts;
   }
 
-  async getNumOfCompletedPassagesByCEFR(
-    userId: string,
-    level: CEFRLevel,
-  ): Promise<number> {
+  async getCompletionStats(userId: string): Promise<CEFRLevelCountMap> {
     const rows = await db
-      .select({ count: count() })
-      .from(userPassageAttemptsTable)
+      .select({
+        complete: count(passagesTable.cefr_level),
+        cefrLevel: passagesTable.cefr_level,
+      })
+      .from(passagesTable)
       .innerJoin(
-        passagesTable,
-        eq(userPassageAttemptsTable.passage_id, passagesTable.id),
+        userPassageAttemptsTable,
+        eq(passagesTable.id, userPassageAttemptsTable.passage_id),
       )
       .where(
         and(
           eq(userPassageAttemptsTable.correctly_answered, true),
-          eq(passagesTable.cefr_level, level),
           eq(userPassageAttemptsTable.user_id, userId),
         ),
-      );
-    return rows[0].count;
+      )
+      .groupBy(passagesTable.cefr_level);
+
+    const hash = new CEFRLevelCountMap();
+    for (const row of rows) {
+      hash.set(row.cefrLevel, row.complete);
+    }
+    return hash;
   }
 }
 

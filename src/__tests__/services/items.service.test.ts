@@ -3,6 +3,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import itemService from "@/services/Items.service";
 import db from "@/db/index";
 import { auth, currentUser } from "@clerk/nextjs/server";
+import { CEFRLevelCountMap } from "@/types/types";
 
 vi.mock("@/db/index", () => ({
   default: {
@@ -171,6 +172,46 @@ describe("ItemService", () => {
       } as any);
 
       await expect(itemService.scoreAnswer(1, 999)).rejects.toThrow("Option id does not match passage id.");
+    });
+  });
+
+  describe("getNumOfPassagesByCEFR", () => {
+    const mockSelectChain = (rows: { total: number; cefrLevel: string }[]) =>
+      vi.mocked(db.select).mockReturnValueOnce({
+        from: vi.fn().mockReturnValue({
+          groupBy: vi.fn().mockResolvedValue(rows),
+        }),
+      } as any);
+
+    it("returns a CEFRLevelCountMap with correct totals for each level", async () => {
+      mockSelectChain([
+        { cefrLevel: "A1", total: 5 },
+        { cefrLevel: "B1", total: 8 },
+      ]);
+
+      const result = await itemService.getNumOfPassagesByCEFR();
+
+      expect(result).toBeInstanceOf(CEFRLevelCountMap);
+      expect(result.get("A1")).toBe(5);
+      expect(result.get("B1")).toBe(8);
+    });
+
+    it("returns an empty map when there are no passages in the database", async () => {
+      mockSelectChain([]);
+
+      const result = await itemService.getNumOfPassagesByCEFR();
+
+      expect(result).toBeInstanceOf(CEFRLevelCountMap);
+      expect(result.size).toBe(0);
+    });
+
+    it("does not include levels with no passages", async () => {
+      mockSelectChain([{ cefrLevel: "C2", total: 4 }]);
+
+      const result = await itemService.getNumOfPassagesByCEFR();
+
+      expect(result.has("A1")).toBe(false);
+      expect(result.has("C2")).toBe(true);
     });
   });
 
