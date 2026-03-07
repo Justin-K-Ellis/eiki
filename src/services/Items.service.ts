@@ -5,13 +5,13 @@ import {
   passagesTable,
   optionsTable,
   userPassageAttemptsTable,
-  CEFRLevel,
 } from "@/db/schema";
 import db from "@/db/index";
-import type {
+import {
   ItemInterface,
   ItemsServiceInterface,
   UserItemProgress,
+  CEFRLevelCountMap,
 } from "@/types/types";
 
 /**
@@ -117,13 +117,18 @@ class ItemService implements ItemsServiceInterface {
     return isCorrect;
   }
 
-  async getNumOfPassagesByCEFR(level: CEFRLevel): Promise<number> {
+  async getNumOfPassagesByCEFR(): Promise<CEFRLevelCountMap> {
     const rows = await db
-      .select({ count: count() })
+      .select({ total: count(), cefrLevel: passagesTable.cefr_level })
       .from(passagesTable)
-      .where(eq(passagesTable.cefr_level, level));
+      .groupBy(passagesTable.cefr_level);
 
-    return rows[0].count;
+    const hash = new CEFRLevelCountMap();
+    for (const row of rows) {
+      hash.set(row.cefrLevel, row.total);
+    }
+
+    return hash;
   }
 }
 
