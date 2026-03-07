@@ -42,6 +42,11 @@ export interface LevelData {
   unit: number;
 }
 
+export interface NavLinkData {
+  url: string;
+  text: string;
+}
+
 export type Locale = "en" | "ja";
 
 export interface TitleData {
@@ -56,20 +61,20 @@ export interface UserItemProgress extends TitleData {
 
 // Class interfaces
 export interface ItemsServiceInterface {
-  getNumOfPassagesByCEFR: (level: CEFRLevel) => Promise<number>;
   getItemList: (unitIdentifier: number) => Promise<UserItemProgress[]>;
   getItem: (id: number) => Promise<ItemInterface>;
   scoreAnswer: (passageId: number, optionId: number) => Promise<boolean>;
+  getNumOfPassagesByCEFR: () => Promise<CEFRLevelCountMap>;
 }
 
 export interface UsersServiceInterface {
-  getNumOfCompletedPassagesByCEFR: (
-    userId: string,
-    level: CEFRLevel,
-  ) => Promise<number>;
   updatePassageAttempts: (
     userId: string,
     passageId: number,
     correctlyAnswered: boolean,
   ) => Promise<UserPassageAttempts>;
+  getCompletionStats: (userId: string) => Promise<CEFRLevelCountMap>;
 }
+
+// Custom classes
+export class CEFRLevelCountMap extends Map<CEFRLevel, number> {}
