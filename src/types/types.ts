@@ -77,4 +77,12 @@ export interface UsersServiceInterface {
 }
 
 // Custom classes
-export class CEFRLevelCountMap extends Map<CEFRLevel, number> {}
+export class CEFRLevelCountMap extends Map<CEFRLevel, number> {
+  getTotal(): number {
+    let sum = 0;
+    this.forEach((num) => {
+      sum += num;
+    });
+    return sum;
+  }
+}

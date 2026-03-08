@@ -25,7 +25,7 @@ export default function Navbar() {
       <ul className="flex gap-1 md:gap-3 items-center">
         {linkData.map((link) => (
           <li key={link.url}>
-            <Button variant={"secondary"}>
+            <Button>
               <Link href={link.url}>{link.text}</Link>
             </Button>
           </li>

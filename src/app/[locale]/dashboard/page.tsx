@@ -61,7 +61,7 @@ export default async function Dashboard() {
     };
   });
 
-  const totalComplete = compStats.reduce((acc, stat) => acc + stat.complete, 0);
+  const totalComplete = userCompStats.getTotal();
 
   return (
     <div>
