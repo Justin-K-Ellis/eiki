@@ -1,6 +1,8 @@
 import { describe, it, expect } from "vitest";
+
 import castLocale from "@/lib/castLocale";
 import getRoundedNum from "@/lib/getRoundedNum";
+import { CEFRLevelCountMap } from "@/types/types";
 
 describe("castLocale", () => {
   it("returns Locale of 'en' when passed 'en' string", () => {
@@ -45,5 +47,23 @@ describe("getRoundedNum", () => {
   it("should convery 0/0 to 0", () => {
     const result = getRoundedNum(0, 0);
     expect(result).toBe(0);
+  });
+});
+
+describe("CEFRLevelCountMap", () => {
+  describe("getTotal", () => {
+    it("should return the correct total count", () => {
+      const hash = new CEFRLevelCountMap();
+      hash.set("A1", 1);
+      hash.set("A2", 1);
+      const result = hash.getTotal();
+      expect(result).toEqual(2);
+    });
+
+    it("should return 0 when no values have been set", () => {
+      const hash = new CEFRLevelCountMap();
+      const result = hash.getTotal();
+      expect(result).toEqual(0);
+    });
   });
 });
