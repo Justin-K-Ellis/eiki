@@ -11,7 +11,7 @@ Eiki is an English education app. It's purpose is:
 ## Roadmap
 
 - [x] Provide users with readings passages for A1 and A2.
-- [ ] Allow users to check their learning status in their dashboard.
+- [x] Allow users to check their learning status in their dashboard.
 - [ ] Allow users to save words for later review.
 - [ ] Provide users with reading passages for B1 and B2.
 - [ ] Provide users with reading passages C1 and C2.
