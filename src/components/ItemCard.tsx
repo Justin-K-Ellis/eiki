@@ -129,7 +129,7 @@ export default function ItemCard(props: ItemCardProps) {
           <p className="text-justify">{item.passage.ja_translation}</p>
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex justify-center">
         <CardAction>
           <Button type="button">
             <Link href={"/"}>{props.translations.backBtnLabel}</Link>
